@@ -27,6 +27,39 @@
     <link rel="apple-touch-icon" href="logo.png">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-96B97G6RPW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-96B97G6RPW');
+
+        // Medir eventos importantes del catálogo
+        document.addEventListener('click', (e) => {
+            const target = e.target.closest('a, button');
+            if (!target) return;
+            try {
+                if (target.href && target.href.includes('wa.me')) {
+                    gtag('event', 'click_whatsapp', { event_category: 'engagement' });
+                }
+                if (target.href && target.href.includes('chat.whatsapp.com')) {
+                    gtag('event', 'click_grupo_whatsapp', { event_category: 'engagement' });
+                }
+                if (target.id === 'sidebarCheckoutBtn' || target.id === 'floatingCheckoutBtn') {
+                    gtag('event', 'iniciar_checkout', { event_category: 'ecommerce' });
+                }
+                if (target.classList.contains('add-btn')) {
+                    gtag('event', 'agregar_al_carrito', { event_category: 'ecommerce' });
+                }
+                if (target.id === 'shareBtn') {
+                    gtag('event', 'compartir_enlace', { event_category: 'engagement' });
+                }
+            } catch (err) {}
+        });
+    </script>
+
     <style>
         :root {
             --amazon-navy: #131921;
@@ -332,7 +365,7 @@ const VISUAL_DISCOUNT = 25;
 
 // ⚠️ Si algún día volvés a Google Sites, descomentá la línea de abajo y poné tu URL.
 // En Netlify/GitHub esta constante debe quedar en null para que se detecte automáticamente.
-const SITES_BASE_URL = null; // Ejemplo: 'https://sites.google.com/view/todoenunostore/inicio';
+const SITES_BASE_URL = null;
 
 // ========== ESTADO ==========
 let allProducts = [];
@@ -477,7 +510,6 @@ function updateHash() {
 function navigateFromInitialHash() {
     let view = null;
 
-    // 1. Query params de la URL actual
     try {
         const params = new URLSearchParams(window.location.search);
         if (params.get('cat')) view = { type: 'category', value: params.get('cat') };
@@ -485,7 +517,6 @@ function navigateFromInitialHash() {
         else if (params.get('view') === 'ofertas') view = { type: 'offers' };
     } catch (e) {}
 
-    // 2. Hash de la URL actual
     if (!view && window.location.hash) {
         const h = window.location.hash;
         const catM = h.match(/categoria\/(.+)/);
@@ -495,7 +526,6 @@ function navigateFromInitialHash() {
         else if (h === '#/ofertas') view = { type: 'offers' };
     }
 
-    // 3. Referrer (por si algún día se abre desde otro sitio)
     if (!view && document.referrer) {
         try {
             const refUrl = new URL(document.referrer);
@@ -514,7 +544,6 @@ function navigateFromInitialHash() {
     return true;
 }
 
-// Construye la URL para compartir (funciona perfecto en Netlify/GitHub)
 function buildShareableUrl() {
     const current = internalHistory[historyIndex];
     let param = '';
@@ -523,24 +552,12 @@ function buildShareableUrl() {
         else if (current.type === 'search') param = `?q=${encodeURIComponent(current.data)}`;
         else if (current.type === 'offers') param = `?view=ofertas`;
     }
-
-    // Si hay una URL base configurada manualmente (solo para Google Sites), usarla
     if (SITES_BASE_URL) return SITES_BASE_URL + param;
-
-    // Auto-detección: funciona perfecto en Netlify y GitHub Pages
     let base = window.location.href.split('?')[0].split('#')[0];
-
-    // Caso especial: si está embebido en un iframe (ej: vista previa dentro de Google Sites)
     if (isInIframe()) {
-        try {
-            base = window.top.location.href.split('?')[0].split('#')[0];
-        } catch (e) {
-            if (document.referrer) {
-                base = document.referrer.split('?')[0].split('#')[0];
-            }
-        }
+        try { base = window.top.location.href.split('?')[0].split('#')[0]; }
+        catch (e) { if (document.referrer) base = document.referrer.split('?')[0].split('#')[0]; }
     }
-
     return base + param;
 }
 
@@ -1175,6 +1192,8 @@ function configurarFormularioPedido() {
             if (tipo.value === 'ciudad' && !document.getElementById('zonaCiudadSelect').value) { alert('Seleccione una zona'); return; }
         } else if (dept !== '' && !document.getElementById('transportadoraNombre').value.trim()) { alert('Ingrese el nombre de la transportadora'); return; }
         const mensaje = generarMensajePedido();
+        // Google Analytics: conversión
+        try { gtag('event', 'pedido_enviado', { event_category: 'ecommerce' }); } catch (err) {}
         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`, '_blank');
         cart = []; saveCart(); updateCartUI();
         closeModal('orderModal');
