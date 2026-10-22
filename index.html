@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
     <title>Todoenuno Store | Catálogo Mayorista</title>
+    <!-- V33 · banner adaptable y miniaturas Drive para tarjetas; originales en zoom -->
     <!-- VERSIÓN PÚBLICA LIMPIA: catálogo de solo lectura + carrito + WhatsApp -->
     <meta name="description" content="Catálogo mayorista con envíos a toda Bolivia. Accesorios, decants, maquillaje y más al mejor precio. Hacé tu pedido por WhatsApp.">
 
@@ -1535,6 +1536,129 @@ body.admin-mode .admin-field.admin-edited-photo-field{
  #results-view .category-product-name{font-size:13px!important}
  #results-view .category-price-now{font-size:19px!important}
 }
+
+/* V34: escritorio conserva banner lleno; móvil muestra imagen completa. */
+.hero { height:350px !important; max-width:none !important; aspect-ratio:auto !important; max-height:none !important; background:#f6f7f9; }
+.hero-slides { height:100% !important; }
+.hero-slide { min-width:100%; height:100%; background:none !important; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.hero-slide img { display:block; width:100%; height:100%; object-fit:cover; object-position:center; }
+@media (max-width:767px) {
+  .hero { width:100%; aspect-ratio: 2.55 / 1 !important; height:auto !important; max-height:none !important; }
+  .hero-slide img { object-fit:contain !important; }
+  .hero-btn { font-size:16px; padding:5px 9px; }
+}
+</style>
+
+<style id="teus-v35-lightbox-exclusivo">
+/* Fotografía ampliada siempre por encima de buscador, carrito y navegación. */
+#imageModal.modal.lightbox-modal {
+  position:fixed !important;
+  inset:0 !important;
+  width:100vw !important;
+  height:100vh !important;
+  height:100dvh !important;
+  z-index:2147483000 !important;
+  background:rgba(8,12,18,.97) !important;
+  padding:52px 12px 24px !important;
+  align-items:center !important;
+  justify-content:center !important;
+  overflow:hidden !important;
+  overscroll-behavior:contain;
+}
+#imageModal .lightbox-content {
+  width:100% !important;
+  height:100% !important;
+  max-width:100% !important;
+  max-height:100% !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+#imageModal #lightboxImage {
+  display:block !important;
+  width:auto !important;
+  height:auto !important;
+  max-width:100% !important;
+  max-height:100% !important;
+  object-fit:contain !important;
+  border-radius:7px !important;
+}
+#imageModal #closeImageModal {
+  position:absolute !important;
+  top:max(9px,env(safe-area-inset-top)) !important;
+  right:max(12px,env(safe-area-inset-right)) !important;
+  width:42px !important;
+  height:42px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  border-radius:50% !important;
+  background:rgba(255,255,255,.2) !important;
+  color:white !important;
+  font-size:30px !important;
+  line-height:1 !important;
+  z-index:2147483001 !important;
+}
+@media(max-width:767px){
+  #imageModal.modal.lightbox-modal {padding:64px 10px 32px !important;}
+  #imageModal #lightboxImage {max-height:100% !important;}
+}
+</style>
+
+
+<style id="teus-v36-carrito-llamativo">
+/* Solo el botón del carrito: amarillo con productos, oscuro cuando está vacío. */
+#cartToggleBtn{
+  display:flex !important;align-items:center;justify-content:center;gap:5px;
+  border:2px solid rgba(255,255,255,.14);border-radius:999px;
+  background:#131921;color:#fff;padding:11px 13px;
+  box-shadow:0 4px 14px rgba(0,0,0,.25);
+  transition:background .2s,color .2s,box-shadow .2s;
+  cursor:pointer;
+}
+#cartToggleBtn i{font-size:17px}
+#mobileCartCount{font-size:12px;font-weight:900;min-width:13px;text-align:center}
+#cartToggleBtn.teus-carrito-con-productos{
+  background:#ffd814 !important;color:#131921 !important;
+  border-color:#f4bc00 !important;
+  box-shadow:0 4px 15px rgba(255,180,0,.45),0 2px 8px rgba(0,0,0,.16) !important;
+  animation:teusPulsoCarritoV36 2s ease-in-out infinite;
+}
+@keyframes teusPulsoCarritoV36{
+  0%,100%{transform:scale(1);box-shadow:0 4px 15px rgba(255,180,0,.43),0 2px 8px rgba(0,0,0,.16)}
+  50%{transform:scale(1.07);box-shadow:0 5px 21px rgba(255,193,7,.78),0 2px 8px rgba(0,0,0,.16)}
+}
+@media(prefers-reduced-motion:reduce){#cartToggleBtn.teus-carrito-con-productos{animation:none}}
+</style>
+
+<style id="teus-v39-layout-guard">
+/* V39: escritorio: carrito SOLO en la cabecera; nunca barra inferior gigante. */
+@media (min-width:769px){
+  #cartToggleBtn.cart-toggle-btn {display:none !important;visibility:hidden !important;}
+  #cartSidebar.cart-sidebar {width:185px !important;min-width:185px !important;max-width:185px !important;}
+  .hero {height:clamp(170px,17vw,255px) !important; margin:0 auto !important;}
+  .hero-slide img {object-fit:cover !important;width:100% !important;height:100% !important;}
+}
+/* Móvil: botón flotante compacto; banner de la proporción REAL del archivo. */
+@media (max-width:768px){
+  #cartToggleBtn.cart-toggle-btn {
+    position:fixed !important; width:50px !important; height:50px !important;
+    min-width:50px !important;max-width:50px !important;min-height:50px !important;
+    padding:0 6px !important;left:auto !important;right:10px !important;
+    top:auto !important;bottom:64px !important;margin:0 !important;
+    display:flex !important;align-items:center !important;justify-content:center !important;
+    border-radius:999px !important;z-index:10021 !important;
+  }
+  #cartToggleBtn.cart-toggle-btn i{flex:0 0 auto;}
+  .hero {width:100% !important;max-width:100% !important;height:auto !important;
+    aspect-ratio:var(--teus-banner-ratio, 3 / 1) !important;
+    margin:0 !important;background:#f4f5f7 !important;}
+  .hero-slides,.hero-slide {height:100% !important;}
+  .hero-slide img{width:100% !important;height:100% !important;object-fit:contain !important;}
+  .main-content {margin-top:8px !important;}
+}
+/* Evita una pantalla blanca enorme en el primer arranque. */
+.hero:empty{background:#f4f5f7 !important;}
 </style>
 </head>
 <body>
@@ -1750,6 +1874,26 @@ function getImageUrl(url) {
     if (match) return `https://drive.google.com/thumbnail?id=${match[1]}&sz=s0`;
     return url;
 }
+// V33: miniaturas reales de Drive; no se inventan transformaciones de otros hosts.
+function getProductThumb(url, width=420) {
+    const raw=String(url||'').trim();
+    if(!raw) return '';
+    const safeWidth=Math.max(120,Math.min(800,Number(width)||420));
+    let id='';
+    try {
+        const parsed=new URL(raw,location.href);
+        if(/(^|\.)drive\.google\.com$/.test(parsed.hostname)) {
+            id=parsed.searchParams.get('id')||((parsed.pathname.match(/\/d\/([a-zA-Z0-9_-]+)/)||[])[1])||'';
+        }
+    }catch(e){}
+    if(id && /^[a-zA-Z0-9_-]+$/.test(id)) return 'https://drive.google.com/thumbnail?id='+encodeURIComponent(id)+'&sz=w'+safeWidth;
+    return raw; // Otros servidores: conservar URL hasta contar con un generador real de miniaturas.
+}
+function teusThumbMarkup(full, alt, width=420) {
+    const source=escapeHtml(getProductThumb(full,width));
+    const original=escapeHtml(full||'');
+    return `<img src="${source}" data-teus-original="${original}" loading="lazy" decoding="async" alt="${escapeHtml(alt||'Producto')}" onerror="if(!this.dataset.teusFallback){this.dataset.teusFallback='1';this.src=this.dataset.teusOriginal;}">`;
+}
 function getVisualPrice(price) {
     const before = price * (1 + VISUAL_DISCOUNT / 100);
     return { before, now: price, save: before - price };
@@ -1853,7 +1997,7 @@ function fetchCatalogAPI(action) {
         const script=document.createElement('script');
         let done=false;
         const cleanup=()=>{delete window[cb];script.remove();clearTimeout(timeout)};
-        const timeout=setTimeout(()=>{if(!done){done=true;cleanup();reject(new Error('Tiempo de espera agotado al consultar el catálogo.'));}},18000);
+        const timeout=setTimeout(()=>{if(!done){done=true;cleanup();reject(new Error('Tiempo de espera agotado al consultar el catálogo.'));}},23000);
         window[cb]=(data)=>{if(done)return;done=true;cleanup();if(!data || data.ok!==true)reject(new Error((data&&data.error)||'No se pudo cargar el catálogo.'));else resolve(data);};
         script.onerror=()=>{if(done)return;done=true;cleanup();reject(new Error('No se pudo conectar con el servidor de catálogo.'));};
         script.src=ITEMS_PUBLIC_API+'?accion='+encodeURIComponent(action)+'&callback='+encodeURIComponent(cb)+'&_='+Date.now();
@@ -1955,25 +2099,14 @@ function restoreView(state) {
 }
 
 // ========== URL (query params + hash) ==========
+// V41: la navegación interna NO debe dejar filtros persistentes en la URL.
+// Los enlaces para compartir siguen construyéndose en buildShareableUrl().
 function updateHash() {
-    const current = internalHistory[historyIndex];
-    let param = '';
-    let hash = '#/';
-    if (current) {
-        if (current.type === 'category') {
-            param = `cat=${encodeURIComponent(current.data)}`;
-            hash = `#/categoria/${encodeURIComponent(current.data)}`;
-        } else if (current.type === 'search') {
-            param = `q=${encodeURIComponent(current.data)}`;
-            hash = `#/buscar/${encodeURIComponent(current.data)}`;
-        } else if (current.type === 'offers') {
-            param = `view=ofertas`;
-            hash = '#/ofertas';
-        }
-    }
     try {
-        const newUrl = param ? `?${param}${hash}` : hash;
-        history.replaceState(null, '', newUrl);
+        const cleanUrl = window.location.pathname;
+        if (window.location.search || window.location.hash) {
+            window.history.replaceState(null, '', cleanUrl);
+        }
     } catch (e) {}
 }
 
@@ -1996,15 +2129,8 @@ function navigateFromInitialHash() {
         else if (h === '#/ofertas') view = { type: 'offers' };
     }
 
-    if (!view && document.referrer) {
-        try {
-            const refUrl = new URL(document.referrer);
-            const params = refUrl.searchParams;
-            if (params.get('cat')) view = { type: 'category', value: params.get('cat') };
-            else if (params.get('q')) view = { type: 'search', value: params.get('q') };
-            else if (params.get('view') === 'ofertas') view = { type: 'offers' };
-        } catch (e) {}
-    }
+    // No usar document.referrer: puede contener una categoría anterior
+    // y abrirla aun cuando el visitante ingresó directamente a Inicio.
 
     if (!view) return false;
 
@@ -2113,7 +2239,7 @@ function renderSearchSuggestions(term){
     const products=allProducts.map(p=>({p,score:productSearchScore(p,q)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score||a.p.nombre.localeCompare(b.p.nombre,'es')).slice(0,7);
     let items='';
     cats.slice(0,2).forEach(({cat})=>{items+=`<div class="search-suggestion category-hit" data-kind="category" data-value="${escapeHtml(cat)}"><span class="s-icon"><i class="fas fa-list"></i></span><span class="s-copy"><span class="s-name">${escapeHtml(cat)}</span><span class="s-section">Ver categoría</span></span></div>`;});
-    products.slice(0,8).forEach(({p})=>{items+=`<div class="search-suggestion" data-kind="product" data-name="${escapeHtml(p.nombre)}" data-section="${escapeHtml(p.seccion)}">${p.imagen?`<img class="s-img" src="${escapeHtml(p.imagen)}" alt="">`:'<span class="s-icon"><i class="fas fa-search"></i></span>'}<span class="s-copy"><span class="s-name">${escapeHtml(p.nombre)}</span><span class="s-section">${escapeHtml(p.seccion)}</span></span></div>`;});
+    products.slice(0,8).forEach(({p})=>{items+=`<div class="search-suggestion" data-kind="product" data-name="${escapeHtml(p.nombre)}" data-section="${escapeHtml(p.seccion)}">${p.imagen?`<img class="s-img" src="${escapeHtml(getProductThumb(p.imagen,160))}" data-teus-original="${escapeHtml(p.imagen)}" alt="" loading="lazy" decoding="async" onerror="if(!this.dataset.teusFallback){this.dataset.teusFallback='1';this.src=this.dataset.teusOriginal;}">`:'<span class="s-icon"><i class="fas fa-search"></i></span>'}<span class="s-copy"><span class="s-name">${escapeHtml(p.nombre)}</span><span class="s-section">${escapeHtml(p.seccion)}</span></span></div>`;});
     box.innerHTML=items?`<div class="search-suggestion-strip">${items}</div>`:`<div class="search-suggestion-empty">No encontramos coincidencias para “${escapeHtml(q)}”.</div>`;
     box.classList.add('open');searchSuggestionIndex=-1;
     box.querySelectorAll('.search-suggestion').forEach(el=>el.addEventListener('mousedown',e=>{e.preventDefault();selectSearchSuggestion(el);}));
@@ -2139,10 +2265,46 @@ async function loadBanners() {
     }catch(e){console.warn('No se pudieron actualizar los banners:',e);renderHero();}
 }
 
-async function loadProducts() {
+// V40: cache de última respuesta válida y reintento sin exponer errores técnicos al cliente.
+const TEUS_CATALOGO_CACHE_V40 = 'teus_catalogo_publico_cache_v40';
+let teusCatalogoPeticionV40 = null;
+function teusLeerCatalogoCacheV40() {
+    try {
+        const item=JSON.parse(localStorage.getItem(TEUS_CATALOGO_CACHE_V40)||'null');
+        if(item && item.fecha && Date.now()-item.fecha<24*60*60*1000 && item.datos && item.datos.ok===true && Array.isArray(item.datos.productos) && item.datos.productos.length) return item.datos;
+    }catch(e){}
+    return null;
+}
+function teusGuardarCatalogoCacheV40(datos) {
+    try { if(datos && datos.ok===true && Array.isArray(datos.productos) && datos.productos.length) localStorage.setItem(TEUS_CATALOGO_CACHE_V40,JSON.stringify({fecha:Date.now(),datos})); }catch(e){}
+}
+async function teusObtenerCatalogoV40() {
+    if(teusCatalogoPeticionV40) return teusCatalogoPeticionV40;
+    teusCatalogoPeticionV40=(async()=>{
+        try {
+            const datos=await fetchCatalogAPI('catalogoPublico');
+            teusGuardarCatalogoCacheV40(datos);
+            return datos;
+        }catch(primerError){
+            console.warn('Catálogo: reintentando consulta pública después de una falla temporal.',primerError);
+            await new Promise(resolve=>setTimeout(resolve,1500));
+            try {
+                const datos=await fetchCatalogAPI('catalogoPublico');
+                teusGuardarCatalogoCacheV40(datos);
+                return datos;
+            }catch(segundoError){
+                const guardado=teusLeerCatalogoCacheV40();
+                if(guardado){console.warn('Catálogo: mostrando última versión disponible mientras se recupera la conexión.',segundoError);return guardado;}
+                throw segundoError;
+            }
+        }
+    })();
+    try{return await teusCatalogoPeticionV40;} finally{teusCatalogoPeticionV40=null;}
+}
+async function loadProducts(datosEnCache=null) {
     const grid=document.getElementById('categoriesGrid');
     try {
-        const data=await fetchCatalogAPI('catalogoPublico');
+        const data=datosEnCache || await teusObtenerCatalogoV40();
         const records=Array.isArray(data.productos)?data.productos:[];
         const num=x=>{const n=Number(String(x??'').trim().replace(',','.'));return Number.isFinite(n)?n:0;};
         const si=x=>['si','sí','yes','true','1'].includes(normalizeHeader(x));
@@ -2175,7 +2337,11 @@ async function loadProducts() {
         }
     }catch(e){
         console.error('Error cargando catálogo público:',e);
-        grid.innerHTML='<div style="grid-column:1/-1;color:#b12704;background:#fff;padding:24px;border-radius:12px;text-align:center;"><strong>No pude cargar los productos.</strong><br><span style="font-size:13px;">'+escapeHtml(e.message||String(e))+'</span><br><br><button onclick="loadProducts()" style="background:#ffd814;border:0;border-radius:20px;padding:9px 18px;font-weight:bold;cursor:pointer;">Reintentar</button></div>';
+        // Si la red no responde y aún no hay copia guardada, mantener una interfaz discreta.
+        // El error técnico solo queda en consola; nunca mostrarlo como un aviso rojo al cliente.
+        if(!allProducts.length && grid){
+            grid.innerHTML='<div class="teus-catalogo-espera-v40" style="grid-column:1/-1;text-align:center;padding:24px 14px;color:#516273;font-size:13px;">Los productos están tardando un poco en aparecer.<div style="margin-top:12px;"><button type="button" onclick="loadProducts()" style="background:#ffd814;border:0;border-radius:22px;padding:10px 20px;font-weight:700;cursor:pointer;">Volver a cargar</button></div></div>';
+        }
     }
 }
 
@@ -2187,7 +2353,21 @@ function renderHero() {
     heroImages.forEach(img => {
         const slide = document.createElement('div');
         slide.className = 'hero-slide';
-        slide.style.backgroundImage = `url(${getImageUrl(img)})`;
+        const bannerImage = document.createElement('img');
+        bannerImage.src = getImageUrl(img);
+        bannerImage.alt = 'Banner Todoenuno_store';
+        bannerImage.decoding = 'async';
+        bannerImage.loading = container.children.length === 0 ? 'eager' : 'lazy';
+        if (container.children.length === 0) {
+            bannerImage.fetchPriority = 'high';
+            bannerImage.addEventListener('load', () => {
+                if (bannerImage.naturalWidth && bannerImage.naturalHeight) {
+                    const hero = document.querySelector('.hero');
+                    if (hero) hero.style.setProperty('--teus-banner-ratio', bannerImage.naturalWidth + ' / ' + bannerImage.naturalHeight);
+                }
+            }, {once:true});
+        }
+        slide.appendChild(bannerImage);
         container.appendChild(slide);
     });
     heroIndex = 0;
@@ -2228,7 +2408,7 @@ function renderHomeCards() {
         const img = p.imagenEditada || p.imagen || '';
         if (!img) return '';
         return `<div class="grid-item" title="${escapeHtml(p.nombre)}">
-            <img src="${escapeHtml(img)}" loading="lazy" alt="${escapeHtml(p.nombre)}">
+            ${teusThumbMarkup(img,p.nombre,360)}
             <span>${escapeHtml(p.nombre)}</span>
         </div>`;
     };
@@ -2239,7 +2419,7 @@ function renderHomeCards() {
         if(!list.length)return;
         html += `<div class="card offers-card" style="border:2px solid #febd69;cursor:pointer;" data-offer-type="${tipo}" onclick="showOfertasView(true,0,'${tipo}')"><h2>${title}</h2><div class="multi-grid">`;
         list.forEach(p=>{
-            html+=`<div class="grid-item"><img src="${escapeHtml(p.imagen)}" loading="lazy" alt="${escapeHtml(p.nombre)}"><span>${escapeHtml(p.nombre)}</span>${publicOfferPriceHtml(p,true)}</div>`;
+            html+=`<div class="grid-item">${teusThumbMarkup(p.imagen,p.nombre,360)}<span>${escapeHtml(p.nombre)}</span>${publicOfferPriceHtml(p,true)}</div>`;
         });
         html+='</div></div>';
     };
@@ -2320,7 +2500,7 @@ function renderCategoryProducts(products) {
         const disponible = prod.dispPaquete && prod.precioPaquete > 0;
         const visual = disponible ? getVisualPrice(prod.precioPaquete) : null;
         const imageHtml = prod.imagenEditada
-          ? `<div class="category-product-image" data-img="${escapeHtml(prod.imagenEditada)}"><img src="${escapeHtml(prod.imagenEditada)}" loading="lazy" alt="${escapeHtml(prod.nombre)}"></div>`
+          ? `<div class="category-product-image" data-img="${escapeHtml(prod.imagenEditada)}">${teusThumbMarkup(prod.imagenEditada,prod.nombre,500)}</div>`
           : '';
         cards += `<article class="category-product-card">
           ${imageHtml}
@@ -2412,7 +2592,7 @@ function renderResultsList(products) {
         const visual = disponible ? getVisualPrice(prod.precioPaquete) : null;
         html += `<div class="product-row">
                     <div class="image-col" data-img="${escapeHtml(prod.imagen)}">
-                        <img src="${escapeHtml(prod.imagen)}" loading="lazy" alt="${escapeHtml(prod.nombre)}">
+                        ${teusThumbMarkup(prod.imagen,prod.nombre,500)}
                     </div>
                     <div class="info-col">
                         <h2 class="product-title" data-idx="${i}">${escapeHtml(prod.nombre)}</h2>`;
@@ -2489,7 +2669,7 @@ window.openProductModal = function(product) {
     }
 
     modalBody.innerHTML = `
-        <div class="product-row-image"><img src="${escapeHtml(product.imagen)}" alt="${escapeHtml(product.nombre)}"></div>
+        <div class="product-row-image"><img src="${escapeHtml(product.imagen)}" loading="eager" decoding="async" alt="${escapeHtml(product.nombre)}"></div>
         <div class="product-row-info">
             <h2>${escapeHtml(product.nombre)}</h2>
             ${hasPaquete ? `<div class="price-package">
@@ -2618,6 +2798,7 @@ function updateCartUI() {
         document.getElementById('cartTotalSidebar').innerText = 'Subtotal: Bs 0.00';
         document.getElementById('cartCountBadge').innerText = '0';
         document.getElementById('mobileCartCount').innerText = '0';
+        document.getElementById('cartToggleBtn').classList.remove('teus-carrito-con-productos');
         document.getElementById('floatingCheckoutBtn').style.display = 'none';
         return;
     }
@@ -2631,7 +2812,8 @@ function updateCartUI() {
     document.getElementById('cartTotalSidebar').innerText = `Subtotal: Bs ${total.toFixed(2)}`;
     document.getElementById('cartCountBadge').innerText = units;
     document.getElementById('mobileCartCount').innerText = units;
-    document.getElementById('floatingCheckoutBtn').style.display = 'block';
+    document.getElementById('cartToggleBtn').classList.toggle('teus-carrito-con-productos', units > 0);
+    document.getElementById('floatingCheckoutBtn').style.display = (typeof teusCurrentMainView !== 'undefined' && teusCurrentMainView === 'cart') || document.getElementById('fullCartView')?.style.display === 'block' ? 'none' : 'block';
     container.querySelectorAll('.cart-minus').forEach(b=>b.onclick=()=>changeCartQty(+b.dataset.idx,-1));
     container.querySelectorAll('.cart-plus').forEach(b=>b.onclick=()=>changeCartQty(+b.dataset.idx,1));
     if(typeof renderFullCartView==='function') renderFullCartView();
@@ -2765,6 +2947,15 @@ document.getElementById('closeProductModal').onclick = () => closeModal('product
 document.getElementById('closeDescModal').onclick = () => closeModal('descModal');
 document.getElementById('closeOrderModal').onclick = () => closeModal('orderModal');
 document.getElementById('closeImageModal').onclick = closeImageModal;
+// V38: cerrar la fotografía al tocar cualquier zona oscura, incluso
+// el espacio del contenedor flexible que cubre toda la pantalla.
+// Un toque directamente en la fotografía NO la cierra.
+document.getElementById('imageModal').addEventListener('click', function(e) {
+    if (e.target.closest('#lightboxImage')) return;
+    if (e.target.closest('#closeImageModal')) return; // ya tiene su controlador
+    closeImageModal();
+});
+
 
 function closeModalOnOutsideClick(e) {
     if (e.target.classList && e.target.classList.contains('modal')) {
@@ -2842,10 +3033,18 @@ document.getElementById('navRefreshBtn').addEventListener('click', async () => {
     const notif = document.getElementById('notification');
     notif.innerText = '🔄 Actualizando...';
     notif.classList.add('show');
-    await Promise.all([loadProducts(), loadBanners()]);
-    const current = internalHistory[historyIndex];
-    if (current) restoreView(current);
-    notif.innerText = '✅ Datos actualizados';
+    try {
+        await Promise.all([loadProducts(), loadBanners()]);
+        // Recargar datos sin saltar inesperadamente a una categoría anterior.
+        // La acción explícita de actualizar vuelve a Inicio.
+        const cartOpen = typeof teusCurrentMainView !== 'undefined' && teusCurrentMainView === 'cart';
+        if (!cartOpen) showHomeView(true);
+        updateHash();
+        notif.innerText = '✅ Datos actualizados';
+    } catch (err) {
+        console.warn('No se pudo actualizar el catálogo:', err);
+        notif.innerText = 'Sin conexión. Puedes seguir navegando.';
+    }
     setTimeout(() => notif.classList.remove('show'), 2000);
 });
 
@@ -2902,6 +3101,7 @@ function openFullCartView(ev){
     if(home) home.style.display='none';
     if(results) results.style.display='none';
     if(full) full.style.display='block';
+    document.getElementById('floatingCheckoutBtn').style.display='none';
     document.getElementById('inlineCheckout').style.display='none';
     document.getElementById('cartSidebar').classList.remove('open');
     document.body.classList.remove('cart-open');
@@ -2910,6 +3110,9 @@ function openFullCartView(ev){
 }
 function closeFullCartView(){
     teusCurrentMainView='catalog';
+    // Volver a mostrar el botón flotante solamente al regresar al catálogo.
+    const botonFlotante = document.getElementById('floatingCheckoutBtn');
+    if (botonFlotante) botonFlotante.style.display = cart.length ? 'block' : 'none';
     document.getElementById('inlineCheckout').style.display='none';
     document.getElementById('fullCartView').style.display='none';
     const current=internalHistory[historyIndex];
@@ -3185,12 +3388,22 @@ document.getElementById('floatingCheckoutBtn').onclick = () => {
 
 // ========== INIT ==========
 async function init() {
-    await Promise.all([loadBanners(), loadProducts()]);
+    // Restaurar el último catálogo válido de inmediato cuando exista (útil con señal lenta).
+    const cacheInicial=teusLeerCatalogoCacheV40();
+    if(cacheInicial){
+        // Renderizado desde los mismos datos del servidor, sin alterar precios ni inventario.
+        await loadProducts(cacheInicial);
+        // Actualización real sin bloquear el inicio de la página.
+        loadProducts().catch(e=>console.warn(e));
+        loadBanners().catch(e=>console.warn(e));
+    } else {
+        await Promise.all([loadBanners(), loadProducts()]);
+    }
     loadCart();
     pushToHistory('home', null, 0);
     showHomeView(false);
     const wentToHash = navigateFromInitialHash();
-    if (!wentToHash) updateHash();
+    updateHash(); // limpiar filtros aun después de abrir un enlace compartido
     updateNavButtonsState();
     positionFloatingElements();
     window.addEventListener('scroll', () => {
