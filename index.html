@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-    <title>Todoenuno Store | Catálogo Mayorista V58</title>
+    <title>Todoenuno Store | Catálogo Mayorista V60</title>
     <!-- Versión activa: V58. Recomendaciones semánticas sin relleno al azar; tarjetas uniformes; conserva rutas V56 -->
     <meta name="teus-version" content="56-enlaces-directos-verificados">
+    <!-- V60 · botón visible de pedido, navegación alineada y eliminación sin volver a Inicio -->
     <!-- V53 · carruseles de 2/3 productos cada 2 segundos y carga skeleton -->
     <!-- V49: búsqueda por relevancia y tolerancia a errores; V48: fotografía ampliable con gesto y controles; V47: condiciones de entrega exclusivas de WhatsApp, conforme a Ventas por Mayor -->
     <!-- V33 · banner adaptable y miniaturas Drive para tarjetas; originales en zoom -->
@@ -2098,6 +2099,141 @@ body.admin-mode .admin-field.admin-edited-photo-field{
 }
 </style>
 
+
+<style id="teus-v60-carrito-claro-navegacion">
+/* V60: navegación y carrito a la misma altura visual en móvil.
+   El botón amarillo lleva al carrito COMPLETO sin pasos intermedios. */
+@media (max-width:768px) {
+  .browser-nav-bar,
+  body.cart-open .browser-nav-bar,
+  #cartSidebar.open ~ .browser-nav-bar {
+    bottom:calc(23px + env(safe-area-inset-bottom, 0px)) !important;
+    top:auto !important;
+    display:flex !important;
+  }
+  #cartToggleBtn.cart-toggle-btn,
+  #cartToggleBtn {
+    bottom:calc(20px + env(safe-area-inset-bottom, 0px)) !important;
+    top:auto !important;
+    right:10px !important;
+  }
+  #floatingCheckoutBtn.floating-checkout {
+    display:none;
+    position:fixed !important;
+    top:auto !important;
+    bottom:calc(98px + env(safe-area-inset-bottom, 0px)) !important;
+    left:12px !important;
+    right:12px !important;
+    width:calc(100% - 24px) !important;
+    max-width:540px !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    min-height:48px;
+    padding:11px 12px !important;
+    border:2px solid #e7b900 !important;
+    border-radius:16px !important;
+    background:#ffd814 !important;
+    color:#111820 !important;
+    font-size:14px !important;
+    font-weight:800 !important;
+    line-height:1.2;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(18,25,33,.28),0 1px 6px rgba(255,216,20,.6) !important;
+    animation:none !important;
+    transform:none !important;
+    z-index:10019 !important;
+    cursor:pointer;
+    white-space:normal;
+  }
+  body.cart-open #floatingCheckoutBtn,
+  #cartSidebar.open ~ #floatingCheckoutBtn,
+  body.teus-v60-fullcart #floatingCheckoutBtn { visibility:hidden !important; pointer-events:none !important; }
+  #results-view { padding-bottom:185px !important; }
+  #home-view { padding-bottom:185px !important; }
+  #fullCartView { padding-bottom:115px !important; }
+}
+@media (max-width:359px) {
+  #floatingCheckoutBtn.floating-checkout { font-size:12.5px !important; min-height:44px; }
+  .browser-nav-bar { padding:6px 10px !important; gap:9px !important; }
+}
+@media (min-width:769px) {
+  #floatingCheckoutBtn.floating-checkout { font-weight:800; }
+}
+@media (prefers-reduced-motion:reduce) {
+  #floatingCheckoutBtn { animation:none !important; }
+}
+</style>
+
+
+<style id="teus-v61-finalizar-movil">
+/* V61: Solo celular. La compra debe entenderse en un vistazo. */
+@media (max-width:768px) {
+  .browser-nav-bar,
+  body.cart-open .browser-nav-bar,
+  #cartSidebar.open ~ .browser-nav-bar {
+    bottom:calc(10px + env(safe-area-inset-bottom, 0px)) !important;
+    top:auto !important;
+  }
+  /* Carrito del encabezado disponible; quitar el tercer círculo que confunde. */
+  #cartToggleBtn.cart-toggle-btn { display:none !important; }
+  #floatingCheckoutBtn.floating-checkout {
+    position:fixed !important;
+    top:auto !important;
+    bottom:calc(74px + env(safe-area-inset-bottom, 0px)) !important;
+    left:12px !important; right:12px !important;
+    width:calc(100% - 24px) !important; max-width:480px !important;
+    margin-left:auto !important; margin-right:auto !important;
+    display:none;
+    min-height:56px !important;
+    border:2px solid #e3ba00 !important; border-radius:16px !important;
+    background:#ffd814 !important; color:#101820 !important;
+    box-shadow:0 6px 22px rgba(16,24,32,.3) !important;
+    font-size:15px !important; font-weight:900 !important;
+    z-index:10019 !important;
+    white-space:normal !important; text-align:center !important;
+    line-height:1.25 !important; padding:9px 12px !important;
+  }
+  body.teus-v61-quickcheckout #floatingCheckoutBtn,
+  body.teus-v61-quickcheckout .browser-nav-bar,
+  body.teus-v61-quickcheckout #cartSidebar,
+  body.teus-v61-quickcheckout #cartToggleBtn { display:none !important; }
+  /* En la compra rápida se abre directamente el formulario, sin paso intermedio de carrito. */
+  body.teus-v61-quickcheckout #fullCartView .teus-full-cart-shell { display:none !important; }
+  body.teus-v61-quickcheckout #fullCartView { padding:12px 10px 95px !important; min-height:calc(100dvh - 80px); }
+  body.teus-v61-quickcheckout #inlineCheckout { display:block !important; padding:0 !important; margin:0 auto !important; max-width:670px !important; }
+  body.teus-v61-quickcheckout #inlineCheckout .teus-inline-checkout-card { padding:16px 12px 20px !important; margin-top:4px !important; border-radius:14px !important; }
+  body.teus-v61-quickcheckout #inlineCheckout .teus-inline-checkout-head h2 { font-size:21px !important; }
+  body.teus-v61-quickcheckout #inlineCheckout .teus-inline-checkout-head button { width:40px; min-width:40px; height:40px; }
+  #home-view,#results-view { scroll-padding-bottom:165px; }
+  body:not(.teus-v61-quickcheckout) #home-view,
+  body:not(.teus-v61-quickcheckout) #results-view { padding-bottom:175px !important; }
+  .teus-v61-review { border:1px solid #d7e3eb; background:#f8fafc; border-radius:12px; margin:0 0 20px; padding:12px; }
+  .teus-v61-review-heading { display:flex;justify-content:space-between;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:11px; }
+  .teus-v61-review-heading strong { font-size:15px; }
+  .teus-v61-review-heading button { border:0;background:transparent;color:#007185;text-decoration:underline;font-weight:700;padding:9px 0;cursor:pointer; }
+  .teus-v61-review-item { display:grid;grid-template-columns:63px minmax(0,1fr);gap:10px;align-items:center;padding:10px 0;border-top:1px solid #dde5ed; }
+  .teus-v61-review-item img { width:63px;height:76px;object-fit:contain;background:#fff;border-radius:7px; }
+  .teus-v61-review-name {font-size:12.5px;font-weight:800;line-height:1.3;overflow-wrap:anywhere;}
+  .teus-v61-review-detail {color:#64748b;font-size:11px;line-height:1.35;margin-top:3px;}
+  .teus-v61-review-actions { display:flex;align-items:center;justify-content:space-between;gap:5px;margin-top:7px;flex-wrap:wrap; }
+  .teus-v61-review-actions b {font-size:13px;color:#9d2403;white-space:nowrap;}
+  .teus-v61-qty {display:inline-flex;align-items:center;gap:2px;border:1px solid #cfd8e3;border-radius:22px;background:#fff;overflow:hidden;}
+  .teus-v61-qty button {width:34px;min-width:34px;height:34px;border:0;background:#fff;font-size:17px;font-weight:800;cursor:pointer;}
+  .teus-v61-qty span {min-width:20px;text-align:center;font-size:14px;font-weight:bold;}
+  .teus-v61-trash {border:0;background:#fff0f0;color:#a52626;border-radius:18px;min-width:34px;height:34px;padding:0 7px;cursor:pointer;}
+  .teus-v61-review-total {border-top:1px solid #d7e3eb;margin-top:6px;padding-top:12px;display:flex;align-items:center;justify-content:space-between;font-size:15px;}
+  .teus-v61-review-total strong {font-size:18px;color:#ab2906;}
+  .teus-v61-review-note {font-size:11px;color:#64748b;margin-top:6px;}
+}
+@media (max-width:359px) {
+  #floatingCheckoutBtn.floating-checkout {font-size:13px !important;min-height:51px !important;}
+  .teus-v61-review-item {grid-template-columns:53px minmax(0,1fr);gap:8px;}
+  .teus-v61-review-item img {width:53px;height:70px;}
+  .teus-v61-review-actions { gap:4px; }
+  .teus-v61-review-actions b {font-size:12px;}
+}
+@media (min-width:769px) { #teusMobileReviewV61 {display:none !important;} }
+</style>
 </head>
 <body>
 
@@ -2170,7 +2306,7 @@ body.admin-mode .admin-field.admin-edited-photo-field{
     <div class="cart-total" id="cartTotalSidebar">Total: Bs 0.00</div>
     <button type="button" class="checkout-btn" id="sidebarCheckoutBtn">Ver carrito</button>
 </div>
-<div class="cart-toggle-btn" id="cartToggleBtn" aria-label="Carrito">
+<div class="cart-toggle-btn" id="cartToggleBtn" aria-label="Ver resumen de mi pedido" title="Ver resumen de mi pedido">
     <i class="fas fa-shopping-cart"></i> <span id="mobileCartCount">0</span>
 </div>
 
@@ -2197,7 +2333,13 @@ body.admin-mode .admin-field.admin-edited-photo-field{
   <div id="inlineCheckout" class="teus-inline-checkout" style="display:none;">
     <div class="teus-inline-checkout-card">
       <div class="teus-inline-checkout-head"><div><h2>Completar pedido</h2><p>Datos para coordinar tu pedido por WhatsApp.</p></div><button type="button" id="closeInlineCheckout">×</button></div>
-      <form id="inlineOrderForm">
+      <div id="teusMobileReviewV61" class="teus-v61-review" aria-live="polite" aria-label="Revisar productos antes de finalizar" hidden>
+          <div class="teus-v61-review-heading"><strong>🛍️ Revisa tu pedido</strong><button type="button" id="teusV61ContinueShopping">+ Seguir comprando</button></div>
+          <div id="teusV61ReviewItems"></div>
+          <div class="teus-v61-review-total"><span>Subtotal de productos</span><strong id="teusV61ReviewTotal">Bs 0.00</strong></div>
+          <p class="teus-v61-review-note">Puedes corregir cantidades o eliminar un producto aquí mismo antes de enviar el pedido.</p>
+        </div>
+        <form id="inlineOrderForm">
         <div class="teus-checkout-grid">
           <div class="form-group"><label>Nombre completo</label><div class="input-with-icon"><i class="fas fa-user"></i><input type="text" id="inlineFullName" placeholder="Nombre completo" required></div></div>
           <div class="form-group"><label>Celular</label><div class="input-with-icon"><i class="fas fa-phone"></i><input type="tel" id="inlinePhone" placeholder="Número de celular" required></div></div>
@@ -3403,7 +3545,7 @@ function addToCart(name, detail, price, qty = 1, unitLabel = 'paquete(s)', units
     }else{
         cart.push({ id: Date.now() + Math.random(), key, name, detail, unitPrice, price:unitPrice, qty, unitLabel, unitsPerPackage:Number(unitsPerPackage)||packageUnitsByName(name), image:productImageByName(name) });
     }
-    saveCart(); updateCartUI(); showNotif(`✓ ${name} agregado`);
+    saveCart(); updateCartUI(); showNotif(window.innerWidth <= 768 ? '✓ Agregado · Toca FINALIZAR PEDIDO abajo' : '✓ Agregado · Revisa el botón amarillo «Ver mi pedido»');
 }
 function saveCart() { try { localStorage.setItem('mayorCart', JSON.stringify(cart)); } catch (e) {} }
 function normalizeCart(){
@@ -3450,10 +3592,18 @@ function updateCartUI() {
     document.getElementById('cartCountBadge').innerText = units;
     document.getElementById('mobileCartCount').innerText = units;
     document.getElementById('cartToggleBtn').classList.toggle('teus-carrito-con-productos', units > 0);
-    document.getElementById('floatingCheckoutBtn').style.display = (typeof teusCurrentMainView !== 'undefined' && teusCurrentMainView === 'cart') || document.getElementById('fullCartView')?.style.display === 'block' ? 'none' : 'block';
+    const accesoPedido=document.getElementById('floatingCheckoutBtn');
+    if(accesoPedido){
+        accesoPedido.textContent = window.innerWidth<=768
+            ? '🛍️ FINALIZAR PEDIDO · ' + units + ' · Bs ' + total.toFixed(2)
+            : '🛒 Ver mi pedido (' + units + ') · Bs ' + total.toFixed(2);
+        accesoPedido.setAttribute('aria-label', (window.innerWidth<=768 ? 'Finalizar pedido' : 'Ver mi pedido') + ' con '+units+' artículos, total '+total.toFixed(2)+' bolivianos');
+        accesoPedido.style.display = (typeof teusCurrentMainView !== 'undefined' && teusCurrentMainView === 'cart') || document.getElementById('fullCartView')?.style.display === 'block' ? 'none' : 'block';
+    }
     container.querySelectorAll('.cart-minus').forEach(b=>b.onclick=()=>changeCartQty(+b.dataset.idx,-1));
     container.querySelectorAll('.cart-plus').forEach(b=>b.onclick=()=>changeCartQty(+b.dataset.idx,1));
     if(typeof renderFullCartView==='function') renderFullCartView();
+    if(typeof teusRenderMobileReviewV61==='function') teusRenderMobileReviewV61();
 }
 function showNotif(msg) {
     const n = document.getElementById('notification');
@@ -3750,22 +3900,28 @@ document.getElementById('navRefreshBtn').addEventListener('click', async () => {
 });
 
 let teusCurrentMainView = 'catalog';
+let teusCartReturnViewV60 = null;
 
 function salirDelCarritoSiQuedoVacio(){
     if(cart.length) return false;
-    teusCurrentMainView='catalog';
-
     const full=document.getElementById('fullCartView');
+    const estabaEnCarrito = teusCurrentMainView === 'cart' || !!(full && full.style.display === 'block');
+    const vistaAnterior = teusCartReturnViewV60 || internalHistory[historyIndex];
+    teusCurrentMainView='catalog';
+    if(full) full.style.display='none';
     const checkout=document.getElementById('inlineCheckout');
     const sidebar=document.getElementById('cartSidebar');
-    if(full) full.style.display='none';
     if(checkout) checkout.style.display='none';
     if(sidebar) sidebar.classList.remove('open');
-    document.body.classList.remove('cart-open');
-
-    // Volver a la portada principal del catálogo usando su navegación normal.
-    showHomeView(true);
-    window.scrollTo({top:0,behavior:'smooth'});
+    document.body.classList.remove('cart-open','teus-v60-fullcart','teus-v61-quickcheckout');
+    // Cuando solo se vacía el mini-carrito, dejar INTACTA la vista abierta.
+    // Si el usuario estaba en la página completa del carrito, recuperar la
+    // categoría, búsqueda u ofertas exactas, con su posición de desplazamiento.
+    if(estabaEnCarrito){
+        teusCartReturnViewV60=null;
+        if(vistaAnterior) restoreView(vistaAnterior);
+        else showHomeView(false);
+    }
     return true;
 }
 
@@ -3795,7 +3951,10 @@ function renderFullCartView(){
 function openFullCartView(ev){
     if(ev){ ev.preventDefault(); ev.stopPropagation(); }
     if(!cart.length){alert('Carrito vacío');return false;}
+    const actual=internalHistory[historyIndex];
+    teusCartReturnViewV60=actual ? Object.assign({},actual,{scrollPos:window.scrollY}) : {type:'home',data:null,scrollPos:window.scrollY};
     teusCurrentMainView='cart';
+    document.body.classList.add('teus-v60-fullcart');
     renderFullCartView();
     const home=document.getElementById('home-view');
     const results=document.getElementById('results-view');
@@ -3812,14 +3971,15 @@ function openFullCartView(ev){
 }
 function closeFullCartView(){
     teusCurrentMainView='catalog';
-    // Volver a mostrar el botón flotante solamente al regresar al catálogo.
+    document.body.classList.remove('teus-v60-fullcart','teus-v61-quickcheckout');
     const botonFlotante = document.getElementById('floatingCheckoutBtn');
     if (botonFlotante) botonFlotante.style.display = cart.length ? 'block' : 'none';
     document.getElementById('inlineCheckout').style.display='none';
     document.getElementById('fullCartView').style.display='none';
-    const current=internalHistory[historyIndex];
+    const current=teusCartReturnViewV60 || internalHistory[historyIndex];
+    teusCartReturnViewV60=null;
     if(current) restoreView(current);
-    else document.getElementById('home-view').style.display='block';
+    else showHomeView(false);
 }
 const teusSidebarCheckoutBtn=document.getElementById('sidebarCheckoutBtn');
 teusSidebarCheckoutBtn.addEventListener('click', openFullCartView, true);
@@ -3835,7 +3995,7 @@ function openInlineCheckout(){
     requestAnimationFrame(()=>box.scrollIntoView({behavior:'smooth',block:'start'}));
 }
 document.getElementById('fullCartCheckoutBtn').onclick = openInlineCheckout;
-document.getElementById('closeInlineCheckout').onclick=()=>{document.getElementById('inlineCheckout').style.display='none';};
+document.getElementById('closeInlineCheckout').onclick=()=>{if(document.body.classList.contains('teus-v61-quickcheckout')) closeFullCartView(); else document.getElementById('inlineCheckout').style.display='none';};
 const TEUS_PROVINCE_POINTS = {
     terminal_bimodal: { label:'Terminal Bimodal Nueva', costo:15 },
     terminal_antigua: { label:'Ex terminal antigua, primer anillo', costo:25 },
@@ -4072,16 +4232,75 @@ document.getElementById('inlineOrderForm').onsubmit=function(e){
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`,'_blank');
 };
 
-document.getElementById('floatingCheckoutBtn').onclick = () => {
-    if (cart.length === 0) return;
-    const sidebar = document.getElementById('cartSidebar');
-    if (!sidebar.classList.contains('open')) {
-        sidebar.classList.add('open');
-        document.body.classList.add('cart-open');
-    }
-    setTimeout(() => {
-        document.getElementById('sidebarCheckoutBtn').scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 300);
+// ===== V61: compra directa desde celulares (el escritorio conserva sus rutas) =====
+function teusRenderMobileReviewV61(){
+    const wrap=document.getElementById('teusMobileReviewV61');
+    const list=document.getElementById('teusV61ReviewItems');
+    const totalNode=document.getElementById('teusV61ReviewTotal');
+    if(!wrap||!list||!totalNode) return;
+    wrap.hidden=window.innerWidth>768;
+    if(window.innerWidth>768) return;
+    let subtotal=0;
+    list.innerHTML=cart.map((item,i)=>{
+        const q=Math.max(1,Number(item.qty)||1);
+        const line=(Number(item.unitPrice)||0)*q;
+        subtotal+=line;
+        const foto=item.image ? `<img src="${escapeHtml(item.image)}" alt="">` : '<span aria-hidden="true">📦</span>';
+        return `<div class="teus-v61-review-item">${foto}<div>
+          <div class="teus-v61-review-name">${escapeHtml(item.name)}</div>
+          <div class="teus-v61-review-detail">${escapeHtml(packageDetailText(item))}</div>
+          <div class="teus-v61-review-actions"><div class="teus-v61-qty">
+            <button type="button" data-idx="${i}" data-step="-1" aria-label="Restar una presentación">−</button>
+            <span>${q}</span><button type="button" data-idx="${i}" data-step="1" aria-label="Sumar una presentación">+</button>
+          </div><b>Bs ${line.toFixed(2)}</b>
+          <button class="teus-v61-trash" type="button" data-remove="${i}" aria-label="Eliminar ${escapeHtml(item.name)}">🗑</button></div>
+        </div></div>`;
+    }).join('');
+    totalNode.textContent='Bs '+subtotal.toFixed(2);
+    if(typeof updateInlineCheckoutTotal==='function') updateInlineCheckoutTotal();
+}
+function teusAbrirCompraMovilV61(ev){
+    if(ev){ev.preventDefault();ev.stopPropagation();}
+    if(!cart.length) return;
+    // En móvil ocultar la página intermedia del carrito y abrir directamente
+    // el formulario original, conservando los campos de envío y WhatsApp.
+    openFullCartView();
+    document.body.classList.add('teus-v61-quickcheckout');
+    document.getElementById('inlineCheckout').style.display='block';
+    teusRenderMobileReviewV61();
+    const h=document.getElementById('mainHeader');
+    if(h) h.classList.remove('header-hidden');
+    window.scrollTo({top:0,behavior:'auto'});
+}
+(function(){
+    const wrap=document.getElementById('teusMobileReviewV61');
+    if(!wrap) return;
+    wrap.addEventListener('click',function(event){
+        const btn=event.target.closest('button');if(!btn)return;
+        if(btn.id==='teusV61ContinueShopping'){closeFullCartView();return;}
+        if(btn.hasAttribute('data-remove')){
+            const i=Number(btn.getAttribute('data-remove'));
+            if(!Number.isInteger(i)||i<0||i>=cart.length) return;
+            cart.splice(i,1);
+            saveCart();
+            if(salirDelCarritoSiQuedoVacio()){updateCartUI();return;}
+            updateCartUI();return;
+        }
+        if(btn.hasAttribute('data-step')){
+            const i=Number(btn.getAttribute('data-idx'));
+            const d=Number(btn.getAttribute('data-step'));
+            if(!Number.isInteger(i)||i<0||i>=cart.length||!(d===1||d===-1)) return;
+            changeCartQty(i,d);
+        }
+    });
+})();
+
+document.getElementById('floatingCheckoutBtn').onclick = (event) => {
+    if (!cart.length) return;
+    // Móvil: ir DIRECTO al formulario real con resumen y edición.
+    // Escritorio: conservar el carrito completo anterior.
+    if(window.innerWidth<=768) teusAbrirCompraMovilV61(event);
+    else openFullCartView(event);
 };
 
 
@@ -4140,7 +4359,7 @@ async function init() {
         else if (route.type === 'offers') showOfertasView(true, 0, route.value || 'dia');
     });
     window.addEventListener('scroll', () => {
-        if (internalHistory.length && historyIndex >= 0) {
+        if (teusCurrentMainView !== 'cart' && internalHistory.length && historyIndex >= 0) {
             internalHistory[historyIndex].scrollPos = window.scrollY;
         }
     }, { passive: true });
