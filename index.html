@@ -1,4 +1,4 @@
-<!-- Todoenuno Store · Catálogo Público V52 · corrección real de sección de relacionados -->
+<!-- Todoenuno Store · Catálogo Público V54 · corrección enlaces directos para categorías, búsquedas y ofertas -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -2265,18 +2265,23 @@ function updateHash() {
     } catch (e) {}
 }
 
-function navigateFromInitialHash() {
+// V54: conservar una fotografía de la URL original antes de que el historial
+// interno limpie ?cat=, ?q= o los enlaces compartidos con #.
+function navigateFromInitialHash(initialUrl) {
     let view = null;
+    let originalUrl;
+    try { originalUrl = new URL(initialUrl || window.location.href, window.location.href); }
+    catch (e) { originalUrl = new URL(window.location.href); }
 
     try {
-        const params = new URLSearchParams(window.location.search);
+        const params = new URLSearchParams(originalUrl.search);
         if (params.get('cat')) view = { type: 'category', value: params.get('cat') };
         else if (params.get('q')) view = { type: 'search', value: params.get('q') };
         else if (params.get('view') === 'ofertas') view = { type: 'offers' };
     } catch (e) {}
 
-    if (!view && window.location.hash) {
-        const h = window.location.hash;
+    if (!view && originalUrl.hash) {
+        const h = originalUrl.hash;
         const catM = h.match(/categoria\/(.+)/);
         const srchM = h.match(/buscar\/(.+)/);
         if (catM) view = { type: 'category', value: decodeURIComponent(catM[1]) };
@@ -2323,14 +2328,19 @@ function showHomeView(push = true) {
 }
 function showResultsByCategory(category, push = true, restoreScroll = 0) {
     browsingOfferMode = null;
-    const filtered = allProducts.filter(p => p.seccion === category);
-    document.getElementById('resultsTitle').innerHTML = escapeHtml(category.toUpperCase());
+    // V54: admitir URL con mayúsculas/minúsculas o espacios equivalentes.
+    // Mostrar el nombre real de ITEMS para mantener enlaces y resultados consistentes.
+    const requestedCategory = normalizeSearchText(category);
+    const matchedCategory = homeCategoryOrder.find(c => normalizeSearchText(c) === requestedCategory);
+    const resolvedCategory = matchedCategory || category;
+    const filtered = allProducts.filter(p => normalizeSearchText(p.seccion) === normalizeSearchText(resolvedCategory));
+    document.getElementById('resultsTitle').innerHTML = escapeHtml(String(resolvedCategory).toUpperCase());
     renderCategoryProducts(filtered);
     teusRenderRecommendationsV50('results',filtered.slice(0,3),filtered.slice(0,5));
     document.getElementById('home-view').style.display = 'none';
     document.getElementById('results-view').style.display = 'block';
     window.scrollTo(0, restoreScroll || 0);
-    if (push) pushToHistory('category', category, window.scrollY);
+    if (push) pushToHistory('category', resolvedCategory, window.scrollY);
 }
 function showOfertasView(push = true, restoreScroll = 0, tipo = 'dia') {
     browsingOfferMode = tipo;
@@ -3729,6 +3739,9 @@ document.getElementById('floatingCheckoutBtn').onclick = () => {
 
 // ========== INIT ==========
 async function init() {
+    // V54: IMPORTANTE. Leer la dirección compartida ANTES de pushToHistory('home'),
+    // que limpia la URL. Esto evita volver a Inicio al abrir ?cat= o ?q=.
+    const sharedUrlOnOpen = window.location.href;
     // Restaurar el último catálogo válido de inmediato cuando exista (útil con señal lenta).
     const cacheInicial=teusLeerCatalogoCacheV40();
     if(cacheInicial){
@@ -3743,7 +3756,7 @@ async function init() {
     loadCart();
     pushToHistory('home', null, 0);
     showHomeView(false);
-    const wentToHash = navigateFromInitialHash();
+    const wentToHash = navigateFromInitialHash(sharedUrlOnOpen);
     updateHash(); // limpiar filtros aun después de abrir un enlace compartido
     updateNavButtonsState();
     positionFloatingElements();
