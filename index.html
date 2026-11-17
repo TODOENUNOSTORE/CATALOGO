@@ -1,12 +1,12 @@
-<!-- Todoenuno Store · Catálogo Público V57 · enlaces V56 + recomendaciones completas sin repetidos -->
+<!-- Todoenuno Store · Catálogo Público V58 · recomendaciones relevantes + tarjetas uniformes -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-    <title>Todoenuno Store | Catálogo Mayorista V57</title>
-    <!-- Versión activa: V57. Recomendaciones completas y sin repetidos; conserva rutas V56 -->
+    <title>Todoenuno Store | Catálogo Mayorista V58</title>
+    <!-- Versión activa: V58. Recomendaciones semánticas sin relleno al azar; tarjetas uniformes; conserva rutas V56 -->
     <meta name="teus-version" content="56-enlaces-directos-verificados">
     <!-- V53 · carruseles de 2/3 productos cada 2 segundos y carga skeleton -->
     <!-- V49: búsqueda por relevancia y tolerancia a errores; V48: fotografía ampliable con gesto y controles; V47: condiciones de entrega exclusivas de WhatsApp, conforme a Ventas por Mayor -->
@@ -1837,6 +1837,135 @@ body.admin-mode .admin-field.admin-edited-photo-field{
  .browser-nav-bar,body.cart-open .browser-nav-bar,#cartSidebar.open ~ .browser-nav-bar{bottom:max(7px, env(safe-area-inset-bottom, 0px))!important;}
 }
 </style>
+
+<style id="teus-v58-tarjetas-uniformes-relevancia">
+/* V58: Las fichas de categoría y búsqueda mantienen las MISMAS dimensiones
+   y presentación premium que «También podría gustarte». La portada no cambia. */
+#results-view .category-horizontal-track,
+#resultsList .teus-search-grid-v58,
+#results-view .teus-recommendations-v50 .teus-rec-track {
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:14px!important;
+  align-items:stretch!important;
+  width:100%!important;
+}
+#results-view .category-horizontal-track>.category-product-card,
+#resultsList .teus-search-grid-v58>.product-row,
+#results-view .teus-recommendations-v50 .teus-rec-card {
+  min-width:0!important;max-width:100%!important;width:100%!important;
+  box-sizing:border-box!important;display:flex!important;flex-direction:column!important;
+  gap:6px!important;padding:12px!important;margin:0!important;
+  border:1px solid #e3e6eb!important;border-radius:11px!important;
+  background:#fff!important;box-shadow:none!important;
+  align-items:stretch!important;
+}
+#results-view .category-horizontal-track>.category-product-card>.category-product-image,
+#resultsList .teus-search-grid-v58>.product-row>.image-col,
+#results-view .teus-recommendations-v50 .teus-rec-photo {
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  width:100%!important;max-width:100%!important;
+  height:190px!important;min-height:190px!important;
+  flex:0 0 auto!important;padding:6px!important;
+  border:0!important;border-radius:7px!important;
+  background:#f7f8fa!important;overflow:hidden!important;
+}
+#results-view .category-horizontal-track .category-product-image img,
+#resultsList .teus-search-grid-v58 .image-col img,
+#results-view .teus-recommendations-v50 .teus-rec-photo img {
+  width:100%!important;height:100%!important;max-width:100%!important;
+  max-height:100%!important;object-fit:contain!important;mix-blend-mode:normal!important;
+}
+#results-view .category-horizontal-track .category-product-body,
+#resultsList .teus-search-grid-v58 .info-col {
+  display:flex!important;flex-direction:column!important;align-items:stretch!important;
+  flex:1 1 auto!important;min-width:0!important;width:100%!important;
+}
+#results-view .category-horizontal-track .category-product-name,
+#resultsList .teus-search-grid-v58 .product-title,
+#results-view .teus-recommendations-v50 .teus-rec-name {
+  font:600 15px/1.32 Arial,sans-serif!important;color:#007185!important;
+  margin:2px 0 3px!important;min-height:0!important;
+  overflow:visible!important;white-space:normal!important;overflow-wrap:anywhere!important;
+}
+#results-view .category-horizontal-track .category-price-before,
+#resultsList .teus-search-grid-v58 .price-container del,
+#results-view .teus-recommendations-v50 .teus-rec-before{
+  color:#777!important;font-size:12px!important;line-height:1.3!important;
+}
+#results-view .category-horizontal-track .category-price-now,
+#resultsList .teus-search-grid-v58 .price-now,
+#results-view .teus-recommendations-v50 .teus-rec-now {
+  font-size:22px!important;font-weight:800!important;line-height:1.18!important;
+  color:#b12704!important;margin:3px 0!important;overflow-wrap:anywhere!important;
+}
+#results-view .category-horizontal-track .category-save,
+#resultsList .teus-search-grid-v58 .savings-badge,
+#results-view .teus-recommendations-v50 .teus-rec-saving {
+  display:inline-block!important;align-self:flex-start!important;
+  background:#f59e0b!important;color:#fff!important;
+  font-size:11px!important;font-weight:700!important;line-height:1.35!important;
+  padding:5px 9px!important;margin:5px 0!important;border-radius:20px!important;
+  width:auto!important;max-width:100%!important;
+}
+#results-view .category-horizontal-track .category-pack,
+#results-view .category-horizontal-track .category-delivery,
+#resultsList .teus-search-grid-v58 .delivery-info,
+#results-view .teus-recommendations-v50 .teus-rec-pack,
+#results-view .teus-recommendations-v50 .teus-rec-delivery {
+  color:#565959!important;font-size:12px!important;line-height:1.4!important;
+  margin:5px 0 0!important;min-height:0!important;
+}
+#resultsList .teus-search-grid-v58 .delivery-info br{display:block;content:"";margin:5px 0;}
+#results-view .category-horizontal-track .category-inline-cart,
+#resultsList .teus-search-grid-v58 .teus-mobile-cart-direct,
+#results-view .teus-recommendations-v50 .teus-rec-actions {
+  display:flex!important;flex-wrap:wrap!important;align-items:center!important;
+  gap:7px!important;margin-top:auto!important;padding-top:9px!important;
+}
+#results-view .category-horizontal-track .category-add,
+#results-view .category-horizontal-track .category-desc,
+#resultsList .teus-search-grid-v58 .category-add,
+#resultsList .teus-search-grid-v58 .category-desc,
+#results-view .teus-recommendations-v50 .teus-rec-add,
+#results-view .teus-recommendations-v50 .teus-rec-details {
+  width:auto!important;min-width:0!important;min-height:36px!important;
+  padding:9px 12px!important;font-size:12px!important;
+  line-height:1.25!important;white-space:normal!important;
+  flex:0 1 auto!important;border-radius:22px!important;
+}
+#resultsList .teus-search-grid-v58>.teus-search-related-heading {
+  grid-column:1/-1!important;margin:12px 0 0!important;
+  padding:20px 0 10px!important;
+}
+#results-view .category-horizontal-wrap {margin-top:16px!important;}
+#results-view .category-horizontal-track {padding:4px 0 20px!important;}
+@media(max-width:1100px){
+  #results-view .category-horizontal-track,
+  #resultsList .teus-search-grid-v58,
+  #results-view .teus-recommendations-v50 .teus-rec-track{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+  #results-view .category-horizontal-track>.category-product-card>.category-product-image,
+  #resultsList .teus-search-grid-v58>.product-row>.image-col,
+  #results-view .teus-recommendations-v50 .teus-rec-photo{height:180px!important;min-height:180px!important;}
+}
+@media(max-width:600px){
+  #results-view .category-horizontal-track,
+  #resultsList .teus-search-grid-v58,
+  #results-view .teus-recommendations-v50 .teus-rec-track{grid-template-columns:minmax(0,1fr)!important;gap:12px!important;}
+  #results-view .category-horizontal-track>.category-product-card,
+  #resultsList .teus-search-grid-v58>.product-row,
+  #results-view .teus-recommendations-v50 .teus-rec-card {
+    width:100%!important;min-width:0!important;display:flex!important;
+    flex-direction:column!important;align-items:stretch!important;padding:12px!important;
+  }
+  #results-view .category-horizontal-track>.category-product-card>.category-product-image,
+  #resultsList .teus-search-grid-v58>.product-row>.image-col,
+  #results-view .teus-recommendations-v50 .teus-rec-photo{
+    width:100%!important;flex:0 0 auto!important;height:210px!important;min-height:210px!important;
+  }
+}
+</style>
+
 </head>
 <body>
 
@@ -2463,7 +2592,8 @@ function searchWordDistance(a,b,maxDistance){
 function searchTokenMatch(token,words){
     if(words.indexOf(token)!==-1)return 4;
     if(words.some(w=>w.startsWith(token)))return 3;
-    if(words.some(w=>w.includes(token)))return 2;
+    // V58: evitar coincidencias accidentales: "metr" no debe coincidir con "geométricas".
+    if(token.length>=5 && words.some(w=>w.includes(token) && token.length*10>=w.length*6))return 2;
     if(token.length<4)return 0; // No sugerir coincidencias difusas para fragmentos cortos.
     const limit=token.length>=7?2:1;
     return words.some(w=>Math.abs(w.length-token.length)<=limit && searchWordDistance(token,w,limit)<=limit)?1:0;
@@ -2529,7 +2659,10 @@ function showResultsBySearch(term, push = true, restoreScroll = 0) {
         const recomendaciones=document.getElementById('teusRecommendationsResultsV50');
         if(recomendaciones){recomendaciones.hidden=true;recomendaciones.replaceChildren();}
     }else{
-        teusRenderRecommendationsV50('results',filtered.slice(0,3),filtered);
+        // V58: no usar como referencia artículos que solo coincidieron con una palabra suelta.
+        const mejorPuntaje = scored.length ? scored[0].score : 0;
+        const anchorsRelevantes = scored.filter(x => x.score >= Math.max(400,mejorPuntaje*0.65)).slice(0,3).map(x => x.p);
+        teusRenderRecommendationsV50('results',anchorsRelevantes,filtered);
     }
     document.getElementById('home-view').style.display = 'none';
     document.getElementById('results-view').style.display = 'block';
@@ -2964,7 +3097,7 @@ function renderResultsList(products, options = {}) {
         }
         html += `</div></div>`;
     });
-    container.innerHTML = html;
+    container.innerHTML = '<div class="teus-search-grid-v58">' + html + '</div>';
 
     container.querySelectorAll('.image-col[data-img]').forEach(el => {
         el.addEventListener('click', () => openImageModal(el.dataset.img));
@@ -4003,59 +4136,63 @@ init();
    No lee registros privados, no altera precios ni reglas de Stock. */
 (function(){
  'use strict';
- var STOP={de:1,del:1,la:1,el:1,los:1,las:1,para:1,por:1,con:1,una:1,uno:1,un:1,und:1,unidad:1,unidades:1,cm:1,mm:1,ml:1,pcs:1,pack:1};
+ var STOP={de:1,del:1,la:1,el:1,los:1,las:1,para:1,por:1,con:1,una:1,uno:1,un:1,und:1,unidad:1,unidades:1,cm:1,mm:1,ml:1,pcs:1,pack:1,
+  cod:1,codigo:1,numero:1,modelo:1,grande:1,chico:1,chica:1,mediano:1,mediana:1,plastico:1,metal:1,metalico:1,negro:1,blanco:1,color:1, colores:1,varios:1,
+  accesorios:1,accesorio:1,producto:1,productos:1,tienda:1,cinta:1,articulo:1,set:1,kit:1};
  var pools={results:[],modal:[],cart:[]};
  function key(p){return normalizeSearchText((p&&p.seccion||'')+'|'+(p&&p.nombre||''));}
- function tokens(v){return searchTokens(v).filter(function(w){return w.length>=3&&!STOP[w];});}
+ function tokens(v){return searchTokens(v).filter(function(w){return w.length>=4&&!STOP[w]&&!/^\d+$/.test(w);});}
+ // Familias precisas: se recomienda por TIPO/USO, no por compartir la palabra «bazar».
+ // Son reglas locales sobre los productos existentes, sin servicios externos ni inventario ficticio.
+ var FAMILIES=[
+  ['medicion', /\b(cinta metrica|cintas metricas|cinta de medir|metro de costura|flexometro|metro retr(a|á)ctil|regla|escuadra|calibrador)\b/],
+  ['llaveros', /\b(llaveros?|argollas? para llaveros?|argollas? llaveros?|mosqueton para llavero|porta retrato llavero)\b/],
+  ['abanicos', /\b(abanicos?|estuche para abanico|ventilador manual)\b/],
+  ['decants', /\b(decants?|frascos? para perfume|atomizador de perfume|atomizadores? para perfume|envases? de perfume)\b/],
+  ['pestanas', /\b(pestanas?|rizador de pestanas|encrespador de pestanas|pegamento de pestanas)\b/],
+  ['peines', /\b(peines?|cepillos? para cabello|cepillos? para pelo|ruleros?|bigudies|peinillas?)\b/],
+  ['bolsas', /\b(bolsas?|celofan|autoadhesivas?|empaques? adhesivos?)\b/],
+  ['manicura', /\b(unas?|manicura|esmaltes?|cortau?nas|limas? de unas|acetoneros?)\b/],
+  ['bisuteria', /\b(aretes?|collares?|pulseras?|bisuteria|anillos?)\b/],
+  ['costura', /\b(agujas? de coser|hilos? de coser|dedales?|alfileres?|costura|bordado)\b/],
+  ['juguetes', /\b(rompecabezas|puzzles?|juegos? didacticos?|encajes? de madera)\b/],
+  ['billar', /\b(billar|tizas? para billar|tacos? de billar)\b/]
+ ];
+ function familyIds(p){
+   var n=normalizeSearchText(p.nombre||''),res=[];
+   FAMILIES.forEach(function(f){if(f[1].test(n))res.push(f[0]);});
+   return res;
+ }
+ function isSpecialtySection(sec){
+    if(!sec||/^(bazar|cosmeticos|novedades|otros|ofertas|accesorios de belleza|accesorios de peluqueria|accesorio lo mas buscado)$/.test(sec))return false;
+    return sec.length>=10 && sec.split(' ').length>=2;
+ }
  function getScore(p,anchor){
+   if(!p||!anchor||key(p)===key(anchor))return 0;
    var pSection=normalizeSearchText(p.seccion), aSection=normalizeSearchText(anchor.seccion);
    var pt=tokens(p.nombre),at=tokens(anchor.nombre);
+   var pFam=familyIds(p),aFam=familyIds(anchor);
+   var sharedFamilies=pFam.filter(function(f){return aFam.indexOf(f)>=0;}).length;
    var common=0;for(var i=0;i<pt.length;i++)if(at.indexOf(pt[i])>=0)common++;
-   var related=pSection===aSection && pSection!=='';
-   var pParts=tokens(p.seccion),aParts=tokens(anchor.seccion),sectionOverlap=0;
-   for(var j=0;j<pParts.length;j++)if(aParts.indexOf(pParts[j])>=0)sectionOverlap++;
-   if(!related && common===0 && sectionOverlap===0)return 0;
-   return (related?48:0)+common*32+sectionOverlap*12;
+   var sameSpecificSection=pSection===aSection && isSpecialtySection(pSection);
+   // Un solo término genérico o una categoría muy amplia NO basta para recomendar.
+   if(!sharedFamilies && common<2 && !(sameSpecificSection&&common>=1))return 0;
+   var score=sharedFamilies*150+common*28+(sameSpecificSection?20:0);
+   // Si el producto tiene relación de familia pero nombre diferente, sí es relevante.
+   return score;
  }
  function recommended(anchors,excluded){
    var base=(anchors||[]).filter(Boolean);
    var used={};(excluded||[]).concat(base).forEach(function(p){if(p)used[key(p)]=true;});
    if(!base.length||!Array.isArray(allProducts)||!allProducts.length)return [];
-   // V57: NUNCA sugerir un producto ya visible; el llamador envía la lista completa.
    var list=allProducts.filter(function(p){return p && p.dispPaquete && Number(p.precioPaquete)>0 && (p.imagenEditada||p.imagen) && !used[key(p)];});
    var rank=list.map(function(p){
        var score=0;base.forEach(function(a){score=Math.max(score,getScore(p,a));});
-       if(score>0 && typeof offerIsActive==='function' && offerIsActive(p))score+=6;
+       if(score>0 && typeof offerIsActive==='function' && offerIsActive(p))score+=4;
        return {product:p,score:score};
-   }).sort(function(a,b){return b.score-a.score || String(a.product.nombre).localeCompare(String(b.product.nombre),'es');});
-   var selected=[], selectedCats={};
-   // 1) Opciones genuinamente relacionadas, no repeticiones del listado.
-   rank.forEach(function(x){
-       if(x.score<=0||selected.length>=4)return;
-       var k=key(x.product);if(used[k])return;
-       selected.push(x.product);used[k]=true;
-       selectedCats[normalizeSearchText(x.product.seccion)]=true;
-   });
-   // 2) Si faltan opciones relacionadas, sugerir productos de otras secciones,
-   // priorizando ofertas y variedad en vez de repetir los mismos abanicos.
-   if(selected.length<4){
-       var alternative=rank.filter(function(x){return x.score===0 && !used[key(x.product)];});
-       alternative.sort(function(a,b){
-           var oa=typeof offerIsActive==='function' && offerIsActive(a.product)?1:0;
-           var ob=typeof offerIsActive==='function' && offerIsActive(b.product)?1:0;
-           return ob-oa || String(a.product.seccion).localeCompare(String(b.product.seccion),'es') || String(a.product.nombre).localeCompare(String(b.product.nombre),'es');
-       });
-       // Primero distribuir las sugerencias por diferentes categorías.
-       for(var pass=0;pass<2&&selected.length<4;pass++){
-          alternative.forEach(function(x){
-             if(selected.length>=4||used[key(x.product)])return;
-             var sec=normalizeSearchText(x.product.seccion);
-             if(pass===0 && selectedCats[sec])return;
-             selected.push(x.product);used[key(x.product)]=true;selectedCats[sec]=true;
-          });
-       }
-   }
-   return selected;
+   }).filter(function(x){return x.score>0;}).sort(function(a,b){return b.score-a.score || String(a.product.nombre).localeCompare(String(b.product.nombre),'es');});
+   // V58: solo sugerencias comprobablemente relacionadas. Nunca rellenar 4 con productos al azar.
+   return rank.slice(0,4).map(function(x){return x.product;});
  }
  function render(kind,anchors,excluded){
    var id={results:'teusRecommendationsResultsV50',modal:'teusRecommendationsModalV50',cart:'teusRecommendationsCartV50'}[kind];
@@ -4067,7 +4204,7 @@ init();
    box.hidden=false;
    var title=kind==='cart'?'Completa tu pedido':'También podría gustarte';
    var hayRelacion=products.some(function(p){return (anchors||[]).some(function(a){return a && getScore(p,a)>0;});});
-   var subtitle=hayRelacion?'Otras opciones relacionadas de Todoenuno Store':'Descubre otros productos de Todoenuno Store';
+   var subtitle=kind==='cart'?'Productos que complementan tu selección':'Productos realmente relacionados de Todoenuno Store';
    box.innerHTML='<div class="teus-rec-header"><strong class="teus-rec-title">'+title+'</strong><span class="teus-rec-subtitle">'+subtitle+'</span></div><div class="teus-rec-track">'+products.map(function(p,i){
       // Precio y ahorro: misma lógica y referencia visual que las fichas normales.
       var regular=Number(p.precioPaquete)||0;
