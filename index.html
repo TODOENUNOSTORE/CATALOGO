@@ -1,4 +1,4 @@
-<!-- Todoenuno Store · Catálogo Público V54 · corrección enlaces directos para categorías, búsquedas y ofertas -->
+<!-- Todoenuno Store · Catálogo Público V55 · enlaces persistentes para categorías, búsquedas y ofertas -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
     <title>Todoenuno Store | Catálogo Mayorista</title>
+    <meta name="teus-version" content="55-enlaces-persistentes">
     <!-- V53 · carruseles de 2/3 productos cada 2 segundos y carga skeleton -->
     <!-- V49: búsqueda por relevancia y tolerancia a errores; V48: fotografía ampliable con gesto y controles; V47: condiciones de entrega exclusivas de WhatsApp, conforme a Ventas por Mayor -->
     <!-- V33 · banner adaptable y miniaturas Drive para tarjetas; originales en zoom -->
@@ -2253,68 +2254,78 @@ function restoreView(state) {
     }
 }
 
-// ========== URL (query params + hash) ==========
-// V41: la navegación interna NO debe dejar filtros persistentes en la URL.
-// Los enlaces para compartir siguen construyéndose en buildShareableUrl().
-function updateHash() {
-    try {
-        const cleanUrl = window.location.pathname;
-        if (window.location.search || window.location.hash) {
-            window.history.replaceState(null, '', cleanUrl);
-        }
-    } catch (e) {}
+// ========== V55: ENLACES DIRECTOS PERSISTENTES ========== 
+// Este catálogo está en GitHub Pages, por eso los enlaces compartidos usan
+// #categoria/...: el fragmento llega intacto al navegador sin pasar por el servidor.
+// Se siguen aceptando los enlaces anteriores con ?cat=, ?q= y ?view=ofertas.
+const TEUS_SHARE_VERSION_V55 = '55';
+const teusDeepLinkAlAbrirV55 = window.location.href;
+
+function teusLeerVistaUrlV55(direccion) {
+    var url;
+    try { url = new URL(direccion || window.location.href, window.location.href); }
+    catch (e) { return null; }
+    var hash = String(url.hash || '').replace(/^#\/?/, '');
+    var m;
+    function valorSeguro(v) {
+        try { return decodeURIComponent(String(v || '')); }
+        catch (_) { return String(v || ''); }
+    }
+    // Prioridad: fragmento compartido (no depende del servidor ni del query).
+    if ((m = hash.match(/^categoria\/(.+)$/i))) return {type:'category', value:valorSeguro(m[1])};
+    if ((m = hash.match(/^buscar\/(.+)$/i))) return {type:'search', value:valorSeguro(m[1])};
+    if (/^ofertas(?:\/.*)?$/i.test(hash)) return {type:'offers', value:'dia'};
+    var p = url.searchParams;
+    if (p.get('cat')) return {type:'category', value:p.get('cat')};
+    if (p.get('q')) return {type:'search', value:p.get('q')};
+    if (p.get('view') === 'ofertas') return {type:'offers', value:'dia'};
+    return null;
 }
 
-// V54: conservar una fotografía de la URL original antes de que el historial
-// interno limpie ?cat=, ?q= o los enlaces compartidos con #.
-function navigateFromInitialHash(initialUrl) {
-    let view = null;
-    let originalUrl;
-    try { originalUrl = new URL(initialUrl || window.location.href, window.location.href); }
-    catch (e) { originalUrl = new URL(window.location.href); }
-
+function teusRutaCompartidaV55(type, data, versionar) {
+    var base;
     try {
-        const params = new URLSearchParams(originalUrl.search);
-        if (params.get('cat')) view = { type: 'category', value: params.get('cat') };
-        else if (params.get('q')) view = { type: 'search', value: params.get('q') };
-        else if (params.get('view') === 'ofertas') view = { type: 'offers' };
-    } catch (e) {}
+        if (SITES_BASE_URL) base = new URL(SITES_BASE_URL, window.location.href);
+        else base = new URL(window.location.href);
+    } catch (e) { base = new URL(window.location.href); }
+    // Borrar solamente los filtros antiguos. Conservar otros parámetros propios del sitio.
+    base.searchParams.delete('cat');
+    base.searchParams.delete('q');
+    base.searchParams.delete('view');
+    if (versionar) base.searchParams.set('v', TEUS_SHARE_VERSION_V55);
+    base.hash = '';
+    if (type === 'category' && String(data || '').trim()) base.hash = '#categoria/' + encodeURIComponent(String(data).trim());
+    else if (type === 'search' && String(data || '').trim()) base.hash = '#buscar/' + encodeURIComponent(String(data).trim());
+    else if (type === 'offers') base.hash = '#ofertas';
+    return base.href;
+}
 
-    if (!view && originalUrl.hash) {
-        const h = originalUrl.hash;
-        const catM = h.match(/categoria\/(.+)/);
-        const srchM = h.match(/buscar\/(.+)/);
-        if (catM) view = { type: 'category', value: decodeURIComponent(catM[1]) };
-        else if (srchM) view = { type: 'search', value: decodeURIComponent(srchM[1]) };
-        else if (h === '#/ofertas') view = { type: 'offers' };
-    }
+// La V54 borraba ?cat= antes de conservarlo. Aquí la URL SIEMPRE representa
+// la vista abierta, y no se convierte a Inicio sin una acción explícita.
+function updateHash() {
+    try {
+        var current = internalHistory[historyIndex];
+        if (!current) return;
+        var siguiente = teusRutaCompartidaV55(current.type, current.data, false);
+        if (window.location.href !== siguiente) {
+            window.history.replaceState({teusVista:current.type}, '', siguiente);
+        }
+    } catch (e) { console.warn('No se pudo actualizar el enlace visible:', e); }
+}
 
-    // No usar document.referrer: puede contener una categoría anterior
-    // y abrirla aun cuando el visitante ingresó directamente a Inicio.
-
+function navigateFromInitialHash(initialUrl) {
+    var view = teusLeerVistaUrlV55(initialUrl || teusDeepLinkAlAbrirV55);
     if (!view) return false;
-
     if (view.type === 'category') showResultsByCategory(view.value, true);
     else if (view.type === 'search') showResultsBySearch(view.value, true);
-    else if (view.type === 'offers') showOfertasView(true);
+    else if (view.type === 'offers') showOfertasView(true, 0, view.value || 'dia');
     return true;
 }
 
 function buildShareableUrl() {
-    const current = internalHistory[historyIndex];
-    let param = '';
-    if (current) {
-        if (current.type === 'category') param = `?cat=${encodeURIComponent(current.data)}`;
-        else if (current.type === 'search') param = `?q=${encodeURIComponent(current.data)}`;
-        else if (current.type === 'offers') param = `?view=ofertas`;
-    }
-    if (SITES_BASE_URL) return SITES_BASE_URL + param;
-    let base = window.location.href.split('?')[0].split('#')[0];
-    if (isInIframe()) {
-        try { base = window.top.location.href.split('?')[0].split('#')[0]; }
-        catch (e) { if (document.referrer) base = document.referrer.split('?')[0].split('#')[0]; }
-    }
-    return base + param;
+    var current = internalHistory[historyIndex];
+    if (!current) return teusRutaCompartidaV55('home', null, true);
+    return teusRutaCompartidaV55(current.type, current.data, true);
 }
 
 // ========== NAVEGACIÓN ==========
@@ -3741,7 +3752,7 @@ document.getElementById('floatingCheckoutBtn').onclick = () => {
 async function init() {
     // V54: IMPORTANTE. Leer la dirección compartida ANTES de pushToHistory('home'),
     // que limpia la URL. Esto evita volver a Inicio al abrir ?cat= o ?q=.
-    const sharedUrlOnOpen = window.location.href;
+    const sharedUrlOnOpen = teusDeepLinkAlAbrirV55;
     // Restaurar el último catálogo válido de inmediato cuando exista (útil con señal lenta).
     const cacheInicial=teusLeerCatalogoCacheV40();
     if(cacheInicial){
@@ -3757,9 +3768,20 @@ async function init() {
     pushToHistory('home', null, 0);
     showHomeView(false);
     const wentToHash = navigateFromInitialHash(sharedUrlOnOpen);
-    updateHash(); // limpiar filtros aun después de abrir un enlace compartido
+    updateHash(); // V55: mantener visible el enlace de la vista activa.
     updateNavButtonsState();
     positionFloatingElements();
+    // Si se abre otra categoría mediante un enlace ancla en la pestaña actual,
+    // actualizar sin reconstruir toda la página.
+    window.addEventListener('hashchange', function () {
+        var route = teusLeerVistaUrlV55(window.location.href);
+        var current = internalHistory[historyIndex];
+        if (!route) return;
+        if (current && route.type === current.type && String(route.value || '') === String(current.data || '')) return;
+        if (route.type === 'category') showResultsByCategory(route.value, true);
+        else if (route.type === 'search') showResultsBySearch(route.value, true);
+        else if (route.type === 'offers') showOfertasView(true, 0, route.value || 'dia');
+    });
     window.addEventListener('scroll', () => {
         if (internalHistory.length && historyIndex >= 0) {
             internalHistory[historyIndex].scrollPos = window.scrollY;
