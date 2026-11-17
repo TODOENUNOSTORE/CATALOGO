@@ -1,12 +1,13 @@
-<!-- Todoenuno Store · Catálogo Público V55 · enlaces persistentes para categorías, búsquedas y ofertas -->
+<!-- Todoenuno Store · Catálogo Público V56 · enlaces directos que abren la vista correcta desde primera carga -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-    <title>Todoenuno Store | Catálogo Mayorista</title>
-    <meta name="teus-version" content="55-enlaces-persistentes">
+    <title>Todoenuno Store | Catálogo Mayorista V56</title>
+    <!-- Versión activa: V56. Confirmar en Ctrl+U buscando teus-v56-enlaces -->
+    <meta name="teus-version" content="56-enlaces-directos-verificados">
     <!-- V53 · carruseles de 2/3 productos cada 2 segundos y carga skeleton -->
     <!-- V49: búsqueda por relevancia y tolerancia a errores; V48: fotografía ampliable con gesto y controles; V47: condiciones de entrega exclusivas de WhatsApp, conforme a Ventas por Mayor -->
     <!-- V33 · banner adaptable y miniaturas Drive para tarjetas; originales en zoom -->
@@ -2258,7 +2259,8 @@ function restoreView(state) {
 // Este catálogo está en GitHub Pages, por eso los enlaces compartidos usan
 // #categoria/...: el fragmento llega intacto al navegador sin pasar por el servidor.
 // Se siguen aceptando los enlaces anteriores con ?cat=, ?q= y ?view=ofertas.
-const TEUS_SHARE_VERSION_V55 = '55';
+const TEUS_SHARE_VERSION_V55 = '56';
+// TEUS BUILD: teus-v56-enlaces · apertura profunda antes de Inicio
 const teusDeepLinkAlAbrirV55 = window.location.href;
 
 function teusLeerVistaUrlV55(direccion) {
@@ -2313,13 +2315,28 @@ function updateHash() {
     } catch (e) { console.warn('No se pudo actualizar el enlace visible:', e); }
 }
 
+function teusAbrirRutaCompartidaV56(route, registrarHistorial) {
+    if (!route || !route.type) return false;
+    if (route.type === 'category') {
+        if (!String(route.value || '').trim()) return false;
+        showResultsByCategory(route.value, !!registrarHistorial);
+        return true;
+    }
+    if (route.type === 'search') {
+        if (!String(route.value || '').trim()) return false;
+        showResultsBySearch(route.value, !!registrarHistorial);
+        return true;
+    }
+    if (route.type === 'offers') {
+        showOfertasView(!!registrarHistorial, 0, route.value || 'dia');
+        return true;
+    }
+    return false;
+}
 function navigateFromInitialHash(initialUrl) {
-    var view = teusLeerVistaUrlV55(initialUrl || teusDeepLinkAlAbrirV55);
-    if (!view) return false;
-    if (view.type === 'category') showResultsByCategory(view.value, true);
-    else if (view.type === 'search') showResultsBySearch(view.value, true);
-    else if (view.type === 'offers') showOfertasView(true, 0, view.value || 'dia');
-    return true;
+    // No perder el enlace original durante la creación del historial.
+    var ruta = teusLeerVistaUrlV55(initialUrl || teusDeepLinkAlAbrirV55);
+    return teusAbrirRutaCompartidaV56(ruta, true);
 }
 
 function buildShareableUrl() {
@@ -2327,6 +2344,28 @@ function buildShareableUrl() {
     if (!current) return teusRutaCompartidaV55('home', null, true);
     return teusRutaCompartidaV55(current.type, current.data, true);
 }
+
+// V56: en una pestaña nueva o restaurada (BFCache), recuperar el enlace
+// aun si algún componente terminó mostrando Inicio después de la carga.
+function teusVerificarVistaEnlaceV56() {
+    if (!allProducts.length) return;
+    var ruta = teusLeerVistaUrlV55(window.location.href);
+    if (!ruta) return;
+    var activa = internalHistory[historyIndex];
+    var misma = !!(activa && activa.type === ruta.type &&
+        normalizeSearchText(activa.data || '') === normalizeSearchText(ruta.value || ''));
+    var visible = document.getElementById('results-view').style.display === 'block';
+    if (misma && visible) return;
+    try { teusAbrirRutaCompartidaV56(ruta, !misma); }
+    catch (error) { console.error('Enlace directo: error al restaurar vista', error); }
+}
+window.addEventListener('pageshow', function () {
+    // Si se recupera una pestaña desde caché, reconciliar su URL con la vista.
+    setTimeout(teusVerificarVistaEnlaceV56, 0);
+});
+window.addEventListener('load', function () {
+    setTimeout(teusVerificarVistaEnlaceV56, 0);
+});
 
 // ========== NAVEGACIÓN ==========
 function showHomeView(push = true) {
@@ -2347,6 +2386,10 @@ function showResultsByCategory(category, push = true, restoreScroll = 0) {
     const filtered = allProducts.filter(p => normalizeSearchText(p.seccion) === normalizeSearchText(resolvedCategory));
     document.getElementById('resultsTitle').innerHTML = escapeHtml(String(resolvedCategory).toUpperCase());
     renderCategoryProducts(filtered);
+    if (!filtered.length) {
+        const contenedor = document.getElementById('resultsList');
+        if (contenedor) contenedor.innerHTML = '<div style="padding:22px 10px;color:#425466;font-size:14px;">Esta categoría todavía no tiene productos publicados. Puedes volver a Inicio o buscar otro producto.</div>';
+    }
     teusRenderRecommendationsV50('results',filtered.slice(0,3),filtered.slice(0,5));
     document.getElementById('home-view').style.display = 'none';
     document.getElementById('results-view').style.display = 'block';
@@ -3765,12 +3808,32 @@ async function init() {
         await Promise.all([loadBanners(), loadProducts()]);
     }
     loadCart();
-    pushToHistory('home', null, 0);
-    showHomeView(false);
-    const wentToHash = navigateFromInitialHash(sharedUrlOnOpen);
-    updateHash(); // V55: mantener visible el enlace de la vista activa.
+    // V56: no generar jamás una URL de Inicio antes de procesar el enlace recibido.
+    // La V55 todavía construía Inicio y actualizaba la dirección en ese paso.
+    const enlaceRecibido = teusLeerVistaUrlV55(sharedUrlOnOpen);
+    internalHistory = [{ type: 'home', data: null, scrollPos: 0 }];
+    historyIndex = 0;
+    let enlaceAbierto = false;
+    if (enlaceRecibido) {
+        try { enlaceAbierto = teusAbrirRutaCompartidaV56(enlaceRecibido, true); }
+        catch (error) { console.error('No se pudo abrir enlace de categoría:', error); }
+    }
+    if (!enlaceAbierto) {
+        showHomeView(false);
+        updateHash();
+    }
     updateNavButtonsState();
     positionFloatingElements();
+    // Si alguna carga tardía reconstruyó Inicio, restaurar UNA VEZ la vista solicitada.
+    // No se ejecuta al navegar normalmente por el catálogo.
+    if (enlaceRecibido && enlaceAbierto) {
+        Promise.resolve().then(function () {
+            const r = internalHistory[historyIndex];
+            if (r && r.type !== 'home' && document.getElementById('results-view').style.display !== 'block') {
+                restoreView(r);
+            }
+        });
+    }
     // Si se abre otra categoría mediante un enlace ancla en la pestaña actual,
     // actualizar sin reconstruir toda la página.
     window.addEventListener('hashchange', function () {
