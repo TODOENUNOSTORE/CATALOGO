@@ -1966,6 +1966,138 @@ body.admin-mode .admin-field.admin-edited-photo-field{
 }
 </style>
 
+
+<style id="teus-v59-movil-compacto-familias">
+/* V59 · En móvil vuelve la vista legible horizontal: imagen izquierda, datos derecha.
+   Escritorio mantiene las cuatro tarjetas uniformes de V58. */
+@media (max-width:767px) {
+  #results-view .category-horizontal-track,
+  #resultsList .teus-search-grid-v58,
+  #results-view .teus-recommendations-v50 .teus-rec-track {
+    display:grid!important;grid-template-columns:minmax(0,1fr)!important;
+    gap:10px!important;width:100%!important;max-width:100%!important;
+  }
+  #results-view .category-horizontal-track>.category-product-card,
+  #resultsList .teus-search-grid-v58>.product-row,
+  #results-view .teus-recommendations-v50 .teus-rec-card {
+    display:flex!important;flex-direction:row!important;align-items:flex-start!important;
+    gap:10px!important;padding:9px!important;margin:0!important;width:100%!important;
+    min-width:0!important;max-width:100%!important;box-sizing:border-box!important;
+    border:1px solid #e3e6eb!important;border-radius:10px!important;
+  }
+  #results-view .category-horizontal-track>.category-product-card>.category-product-image,
+  #resultsList .teus-search-grid-v58>.product-row>.image-col {
+    flex:0 0 112px!important;width:112px!important;max-width:112px!important;
+    height:145px!important;min-height:145px!important;align-self:flex-start!important;
+    padding:5px!important;margin:0!important;
+    background:#f7f8fa!important;
+  }
+  #results-view .category-horizontal-track>.category-product-card>.category-product-image img,
+  #resultsList .teus-search-grid-v58>.product-row>.image-col img {
+    object-fit:contain!important;width:100%!important;height:100%!important;
+    max-height:100%!important;max-width:100%!important;
+  }
+  #results-view .category-horizontal-track .category-product-body,
+  #resultsList .teus-search-grid-v58 .info-col {
+    flex:1 1 auto!important;min-width:0!important;width:auto!important;
+    display:flex!important;flex-direction:column!important;align-items:flex-start!important;
+    gap:2px!important;
+  }
+  #results-view .category-horizontal-track .category-product-name,
+  #resultsList .teus-search-grid-v58 .product-title,
+  #results-view .teus-recommendations-v50 .teus-rec-name {
+    font-size:13px!important;line-height:1.27!important;margin:0 0 3px!important;
+    overflow-wrap:anywhere!important;word-break:normal!important;
+  }
+  #results-view .category-horizontal-track .category-price-now,
+  #resultsList .teus-search-grid-v58 .price-now,
+  #results-view .teus-recommendations-v50 .teus-rec-now {
+    font-size:18px!important;line-height:1.15!important;margin:2px 0!important;
+  }
+  #results-view .category-horizontal-track .category-price-before,
+  #resultsList .teus-search-grid-v58 .price-container del,
+  #results-view .teus-recommendations-v50 .teus-rec-before {
+    font-size:11px!important;
+  }
+  #resultsList .teus-search-grid-v58 .price-container {margin:2px 0!important;}
+  #results-view .category-horizontal-track .category-save,
+  #resultsList .teus-search-grid-v58 .savings-badge,
+  #results-view .teus-recommendations-v50 .teus-rec-saving {
+    font-size:10px!important;margin:3px 0!important;padding:3px 7px!important;
+  }
+  #results-view .category-horizontal-track .category-pack,
+  #results-view .category-horizontal-track .category-delivery,
+  #resultsList .teus-search-grid-v58 .delivery-info,
+  #results-view .teus-recommendations-v50 .teus-rec-pack,
+  #results-view .teus-recommendations-v50 .teus-rec-delivery {
+    font-size:11px!important;line-height:1.35!important;margin:2px 0!important;
+  }
+  #results-view .category-horizontal-track .category-inline-cart,
+  #resultsList .teus-search-grid-v58 .teus-mobile-cart-direct,
+  #results-view .teus-recommendations-v50 .teus-rec-actions {
+    display:flex!important;flex-direction:row!important;flex-wrap:wrap!important;
+    gap:5px!important;margin-top:6px!important;padding-top:2px!important;
+    justify-content:flex-start!important;align-items:center!important;
+  }
+  #results-view .category-horizontal-track .category-add,
+  #results-view .category-horizontal-track .category-desc,
+  #resultsList .teus-search-grid-v58 .category-add,
+  #resultsList .teus-search-grid-v58 .category-desc,
+  #results-view .teus-recommendations-v50 .teus-rec-add,
+  #results-view .teus-recommendations-v50 .teus-rec-details {
+    flex:0 1 auto!important;min-height:29px!important;font-size:10px!important;
+    padding:6px 9px!important;line-height:1.2!important;
+  }
+  /* Recomendaciones: mismas dimensiones compactas; la foto ocupa la columna izquierda. */
+  #results-view .teus-recommendations-v50 .teus-rec-card {
+    display:grid!important;grid-template-columns:112px minmax(0,1fr)!important;
+    grid-auto-rows:min-content!important;column-gap:10px!important;row-gap:3px!important;
+  }
+  #results-view .teus-recommendations-v50 .teus-rec-photo {
+    grid-column:1!important;grid-row:1 / span 9!important;
+    align-self:start!important;flex:none!important;width:112px!important;max-width:112px!important;
+    height:145px!important;min-height:145px!important;padding:5px!important;margin:0!important;
+  }
+  #results-view .teus-recommendations-v50 .teus-rec-name,
+  #results-view .teus-recommendations-v50 .teus-rec-category,
+  #results-view .teus-recommendations-v50 .teus-rec-before,
+  #results-view .teus-recommendations-v50 .teus-rec-now,
+  #results-view .teus-recommendations-v50 .teus-rec-saving,
+  #results-view .teus-recommendations-v50 .teus-rec-pack,
+  #results-view .teus-recommendations-v50 .teus-rec-delivery,
+  #results-view .teus-recommendations-v50 .teus-rec-actions {
+    grid-column:2!important;min-width:0!important;max-width:100%!important;
+  }
+  #results-view .teus-recommendations-v50 .teus-rec-category{font-size:10px!important;}
+  #results-view .teus-recommendations-v50 .teus-rec-saving{
+    justify-self:start!important;width:max-content!important;max-width:100%!important;
+  }
+  #results-view .teus-recommendations-v50 .teus-rec-actions{margin-top:4px!important;padding-top:2px!important;}
+  #results-view .teus-recommendations-v50 .teus-rec-add,
+  #results-view .teus-recommendations-v50 .teus-rec-details{flex:0 1 auto!important;}
+  /* Recomendaciones del modal mantienen su layout original. */
+  #results-view{padding-bottom:110px!important;}
+}
+@media (max-width:359px) {
+  #results-view .category-horizontal-track>.category-product-card>.category-product-image,
+  #resultsList .teus-search-grid-v58>.product-row>.image-col,
+  #results-view .teus-recommendations-v50 .teus-rec-photo{
+    width:96px!important;max-width:96px!important;flex-basis:96px!important;
+    height:128px!important;min-height:128px!important;
+  }
+  #results-view .teus-recommendations-v50 .teus-rec-card{grid-template-columns:96px minmax(0,1fr)!important;}
+  #results-view .teus-recommendations-v50 .teus-rec-category{display:none!important;}
+  #results-view .category-horizontal-track .category-inline-cart button,
+  #resultsList .teus-search-grid-v58 .teus-mobile-cart-direct button,
+  #results-view .teus-recommendations-v50 .teus-rec-actions button {
+    font-size:9px!important;min-height:28px!important;padding:5px 6px!important;
+  }
+  #results-view .category-horizontal-track>.category-product-card,
+  #resultsList .teus-search-grid-v58>.product-row,
+  #results-view .teus-recommendations-v50 .teus-rec-card {gap:8px!important;padding:7px!important;}
+}
+</style>
+
 </head>
 <body>
 
@@ -4144,24 +4276,43 @@ init();
  function tokens(v){return searchTokens(v).filter(function(w){return w.length>=4&&!STOP[w]&&!/^\d+$/.test(w);});}
  // Familias precisas: se recomienda por TIPO/USO, no por compartir la palabra «bazar».
  // Son reglas locales sobre los productos existentes, sin servicios externos ni inventario ficticio.
+ // V59: Familias explícitas por función/uso (nombre comercial y descripciones cortas).
+ // Un atomizador puede complementar un decant o un envase, pero NO un llavero.
  var FAMILIES=[
-  ['medicion', /\b(cinta metrica|cintas metricas|cinta de medir|metro de costura|flexometro|metro retr(a|á)ctil|regla|escuadra|calibrador)\b/],
-  ['llaveros', /\b(llaveros?|argollas? para llaveros?|argollas? llaveros?|mosqueton para llavero|porta retrato llavero)\b/],
+  ['medicion', /\b(cinta metrica|cintas metricas|cinta de medir|metro de costura|flexometro|metro retractil|reglas?|escuadras?|calibrador(?:es)?)\b/],
+  ['llaveros', /\b(llaveros?|argollas? para llaveros?|argollas? llaveros?|mosqueton(?:es)?|porta retrato llavero)\b/],
   ['abanicos', /\b(abanicos?|estuche para abanico|ventilador manual)\b/],
-  ['decants', /\b(decants?|frascos? para perfume|atomizador de perfume|atomizadores? para perfume|envases? de perfume)\b/],
-  ['pestanas', /\b(pestanas?|rizador de pestanas|encrespador de pestanas|pegamento de pestanas)\b/],
+  ['atomizadores', /\b(atomizador(?:es)?|pulverizador(?:es)?|rociador(?:es)?|difuminador(?:es)?|vaporizador(?:es)?|sprays?)\b/],
+  ['decants', /\b(decants?|frascos? (?:para |de )?perfume|envases? (?:para |de )?perfume)\b/],
+  ['envases', /\b(envases?|frascos?|botellas?|recipientes?|tarros?|potes?|cremeras?)\b/],
+  ['dosificadores', /\b(dispensador(?:es)?|dosificador(?:es)?|bombas? de espuma|envases? para espuma|envases? para crema)\b/],
+  ['pestanas', /\b(pestanas?|rizador(?:es)? de pestanas|encrespador(?:es)?|pegamento de pestanas)\b/],
   ['peines', /\b(peines?|cepillos? para cabello|cepillos? para pelo|ruleros?|bigudies|peinillas?)\b/],
   ['bolsas', /\b(bolsas?|celofan|autoadhesivas?|empaques? adhesivos?)\b/],
-  ['manicura', /\b(unas?|manicura|esmaltes?|cortau?nas|limas? de unas|acetoneros?)\b/],
-  ['bisuteria', /\b(aretes?|collares?|pulseras?|bisuteria|anillos?)\b/],
+  ['manicura', /\b(unas?|manicura|esmaltes?|cortaunas|limas? de unas|acetoneros?)\b/],
+  ['bisuteria', /\b(aretes?|collar(?:es)?|pulseras?|bisuteria|anillos?)\b/],
   ['costura', /\b(agujas? de coser|hilos? de coser|dedales?|alfileres?|costura|bordado)\b/],
   ['juguetes', /\b(rompecabezas|puzzles?|juegos? didacticos?|encajes? de madera)\b/],
   ['billar', /\b(billar|tizas? para billar|tacos? de billar)\b/]
  ];
+ // Sólo relaciones comerciales justificables. No hay relleno aleatorio para completar cuatro.
+ var COMPLEMENTS={
+  atomizadores:['decants','envases','dosificadores'],
+  decants:['atomizadores','envases'],
+  envases:['atomizadores','decants','dosificadores'],
+  dosificadores:['envases','atomizadores']
+ };
  function familyIds(p){
-   var n=normalizeSearchText(p.nombre||''),res=[];
-   FAMILIES.forEach(function(f){if(f[1].test(n))res.push(f[0]);});
-   return res;
+   var n=normalizeSearchText(p.nombre||''), section=normalizeSearchText(p.seccion||''),result=[];
+   FAMILIES.forEach(function(f){
+     // El nombre es la señal principal; una categoría general (BAZAR, COSMÉTICOS)
+     // nunca basta por sí sola para relacionar productos.
+     if(f[1].test(n))result.push(f[0]);
+   });
+   // Categorías especializadas: permiten reconocer otros términos de un mismo rubro.
+   if(/\b(atomizador|pulverizador|pulverizadores|atomizadores)\b/.test(section) && result.indexOf('atomizadores')<0)result.push('atomizadores');
+   if(/\bdecants?\b/.test(section) && result.indexOf('decants')<0)result.push('decants');
+   return result;
  }
  function isSpecialtySection(sec){
     if(!sec||/^(bazar|cosmeticos|novedades|otros|ofertas|accesorios de belleza|accesorios de peluqueria|accesorio lo mas buscado)$/.test(sec))return false;
@@ -4169,30 +4320,34 @@ init();
  }
  function getScore(p,anchor){
    if(!p||!anchor||key(p)===key(anchor))return 0;
-   var pSection=normalizeSearchText(p.seccion), aSection=normalizeSearchText(anchor.seccion);
+   var pSection=normalizeSearchText(p.seccion),aSection=normalizeSearchText(anchor.seccion);
    var pt=tokens(p.nombre),at=tokens(anchor.nombre);
    var pFam=familyIds(p),aFam=familyIds(anchor);
-   var sharedFamilies=pFam.filter(function(f){return aFam.indexOf(f)>=0;}).length;
-   var common=0;for(var i=0;i<pt.length;i++)if(at.indexOf(pt[i])>=0)common++;
+   var shared=pFam.filter(function(f){return aFam.indexOf(f)>=0;}).length;
+   var complements=0;
+   aFam.forEach(function(f){(COMPLEMENTS[f]||[]).forEach(function(other){if(pFam.indexOf(other)>=0)complements++;});});
+   var common=0;pt.forEach(function(t){if(at.indexOf(t)>=0)common++;});
    var sameSpecificSection=pSection===aSection && isSpecialtySection(pSection);
-   // Un solo término genérico o una categoría muy amplia NO basta para recomendar.
-   if(!sharedFamilies && common<2 && !(sameSpecificSection&&common>=1))return 0;
-   var score=sharedFamilies*150+common*28+(sameSpecificSection?20:0);
-   // Si el producto tiene relación de familia pero nombre diferente, sí es relevante.
-   return score;
+   // Prohibido rellenar con productos ajenos. Dos palabras compartidas en rubros
+   // distintos (como "tapa negra") tampoco bastan para crear una recomendación.
+   if(!shared&&!complements&&!(sameSpecificSection&&common>=1))return 0;
+   return shared*180+Math.min(complements,2)*75+common*16+(sameSpecificSection?28:0);
  }
  function recommended(anchors,excluded){
-   var base=(anchors||[]).filter(Boolean);
-   var used={};(excluded||[]).concat(base).forEach(function(p){if(p)used[key(p)]=true;});
+   var base=(anchors||[]).filter(Boolean),used={};
+   (excluded||[]).concat(base).forEach(function(p){if(p)used[key(p)]=true;});
    if(!base.length||!Array.isArray(allProducts)||!allProducts.length)return [];
-   var list=allProducts.filter(function(p){return p && p.dispPaquete && Number(p.precioPaquete)>0 && (p.imagenEditada||p.imagen) && !used[key(p)];});
-   var rank=list.map(function(p){
-       var score=0;base.forEach(function(a){score=Math.max(score,getScore(p,a));});
-       if(score>0 && typeof offerIsActive==='function' && offerIsActive(p))score+=4;
-       return {product:p,score:score};
-   }).filter(function(x){return x.score>0;}).sort(function(a,b){return b.score-a.score || String(a.product.nombre).localeCompare(String(b.product.nombre),'es');});
-   // V58: solo sugerencias comprobablemente relacionadas. Nunca rellenar 4 con productos al azar.
-   return rank.slice(0,4).map(function(x){return x.product;});
+   var candidates=allProducts.filter(function(p){
+     return p&&p.dispPaquete&&Number(p.precioPaquete)>0&&(p.imagenEditada||p.imagen)&&!used[key(p)];
+   });
+   var ranking=candidates.map(function(p){
+     var score=0;base.forEach(function(a){score=Math.max(score,getScore(p,a));});
+     if(score>0&&typeof offerIsActive==='function'&&offerIsActive(p))score+=4;
+     return {product:p,score:score};
+   }).filter(function(x){return x.score>0;}).sort(function(a,b){
+     return b.score-a.score||String(a.product.nombre).localeCompare(String(b.product.nombre),'es');
+   });
+   return ranking.slice(0,4).map(function(x){return x.product;});
  }
  function render(kind,anchors,excluded){
    var id={results:'teusRecommendationsResultsV50',modal:'teusRecommendationsModalV50',cart:'teusRecommendationsCartV50'}[kind];
